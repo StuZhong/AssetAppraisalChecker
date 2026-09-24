@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>AssetAppraisalChecker.Core</AssemblyName>
+    <RootNamespace>AssetAppraisalChecker.Core</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,12 @@
+.vs/
+bin/
+obj/
+TestResults/
+*.user
+*.suo
+logs/
+temp/
+
+# 本目录可能包含真实资产评估报告，只允许提交目录说明文件。
+samples/*
+!samples/README.md

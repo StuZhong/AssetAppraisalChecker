@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>AssetAppraisalChecker.Desktop</AssemblyName>
+    <RootNamespace>AssetAppraisalChecker.Desktop</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AssetAppraisalChecker.Core\AssetAppraisalChecker.Core.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Document\AssetAppraisalChecker.Document.csproj" />
+  </ItemGroup>
+</Project>
