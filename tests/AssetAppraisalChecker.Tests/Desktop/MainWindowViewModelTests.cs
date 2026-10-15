@@ -7,6 +7,7 @@ using AssetAppraisalChecker.Core.Documents;
 using AssetAppraisalChecker.Desktop.Services;
 using AssetAppraisalChecker.Desktop.ViewModels;
 using AssetAppraisalChecker.Desktop.Workflow;
+using AssetAppraisalChecker.Desktop.Workflow.Governance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AssetAppraisalChecker.Tests.Desktop
@@ -19,8 +20,8 @@ namespace AssetAppraisalChecker.Tests.Desktop
         {
             MainWindowViewModel viewModel = CreateViewModel();
 
-            Assert.AreEqual("尚未选择报告", viewModel.SelectedFileName);
-            Assert.AreEqual("尚未选择报告", viewModel.StatusMessage);
+            Assert.AreEqual("尚未选择文档 A", viewModel.SelectedFileName);
+            Assert.AreEqual("尚未选择文档 A", viewModel.StatusMessage);
             Assert.IsFalse(viewModel.HasSelectedFile);
             Assert.IsFalse(viewModel.CanStartCheck);
             Assert.IsFalse(viewModel.StartCheckCommand.CanExecute(null));
@@ -52,7 +53,7 @@ namespace AssetAppraisalChecker.Tests.Desktop
         }
 
         [TestMethod]
-        public async Task StartCheckAsync_EmptyExpectedProjectName_BlocksCheckWithPrompt()
+        public async Task StartCheckAsync_EmptyExpectedProjectName_AllowsOptionalAuthority()
         {
             var service = new FakeReportCheckService();
             MainWindowViewModel viewModel = CreateViewModel(service);
@@ -60,13 +61,14 @@ namespace AssetAppraisalChecker.Tests.Desktop
 
             await viewModel.StartCheckAsync();
 
-            Assert.AreEqual(0, service.InvocationCount);
-            Assert.AreEqual("请输入正确项目名称后再开始校检。", viewModel.StatusMessage);
+            Assert.AreEqual(1, service.InvocationCount);
+            Assert.IsNotNull(service.LastRequest);
+            Assert.IsTrue(string.IsNullOrEmpty(service.LastRequest.ExpectedProjectName));
             Assert.IsFalse(viewModel.IsBusy);
         }
 
         [TestMethod]
-        public async Task StartCheckAsync_WhitespaceExpectedProjectName_BlocksCheckWithPrompt()
+        public async Task StartCheckAsync_WhitespaceExpectedProjectName_AllowsOptionalAuthority()
         {
             var service = new FakeReportCheckService();
             MainWindowViewModel viewModel = CreateViewModel(service);
@@ -75,9 +77,24 @@ namespace AssetAppraisalChecker.Tests.Desktop
 
             await viewModel.StartCheckAsync();
 
-            Assert.AreEqual(0, service.InvocationCount);
-            Assert.AreEqual("请输入正确项目名称后再开始校检。", viewModel.ResultMessage);
+            Assert.AreEqual(1, service.InvocationCount);
+            Assert.AreEqual(" \t ", service.LastRequest.ExpectedProjectName);
             Assert.IsFalse(viewModel.IsBusy);
+        }
+
+        [TestMethod]
+        public async Task StartCheckAsync_DocumentBSelected_PassesNeutralDocumentPair()
+        {
+            var service = new FakeReportCheckService();
+            MainWindowViewModel viewModel = CreateViewModel(service);
+            viewModel.TrySelectDocumentA(@"C:\虚构目录\文档A.docx");
+            viewModel.TrySelectDocumentB(@"C:\虚构目录\文档B.docx");
+
+            await viewModel.StartCheckAsync();
+
+            Assert.AreEqual(@"C:\虚构目录\文档A.docx", service.LastRequest.DocumentAPath);
+            Assert.AreEqual(@"C:\虚构目录\文档B.docx", service.LastRequest.DocumentBPath);
+            Assert.IsTrue(service.LastRequest.HasDocumentB);
         }
 
         [TestMethod]
@@ -385,6 +402,85 @@ namespace AssetAppraisalChecker.Tests.Desktop
 
             Assert.AreEqual(@"C:\虚构目录\当前报告.docx", launcher.LastPath);
             Assert.AreEqual("虚构打开成功。", viewModel.StatusMessage);
+        }
+
+        [TestMethod]
+        public async Task DisplayMode_DefaultFocusRetainsAuxiliaryRecordForDetailedReview()
+        {
+            ReportCheckIssue business = CreateIssue("BUS", IssueSeverity.Reminder, 0);
+            var location = new DocumentLocation(DocumentPart.MainBody, 1, null, null, null, null);
+            var occurrence = new ReportCheckOccurrence(
+                "合成段落 ", string.Empty, location, "正文段落 2", "正文", string.Empty,
+                new[] { "字符偏移=4；长度=1" }, new string[0], string.Empty, false,
+                null, "文档 A");
+            var layout = new ReportCheckIssue(
+                "LAYOUT", IssueType.BasicFieldParseFailed, IssueSeverity.Reminder,
+                "空格与字符", "段末空格", "排版提醒", "人工复核", new[] { occurrence }, 1,
+                category: IssueCategory.Mechanical, governanceKind: "TrailingSpace");
+            MainWindowViewModel viewModel = CreateForResult(new[] { business, layout });
+
+            await viewModel.StartCheckAsync();
+
+            Assert.AreEqual(IssueDisplayMode.Focused, viewModel.SelectedDisplayMode);
+            Assert.AreEqual(1, viewModel.TotalCount);
+            Assert.AreEqual(1, viewModel.AuxiliaryCount);
+            Assert.AreEqual(2, viewModel.RetainedIssueCount);
+            Assert.AreEqual("BUS", viewModel.Issues.Single().IssueId);
+            StringAssert.Contains(viewModel.DisplayModeDescription, "并非已修复");
+
+            viewModel.SelectedDisplayMode = IssueDisplayMode.Detailed;
+            Assert.AreEqual(2, viewModel.TotalCount);
+            Assert.AreEqual(2, viewModel.Issues.Count);
+
+            viewModel.SelectedDisplayMode = IssueDisplayMode.Focused;
+            Assert.AreEqual(1, viewModel.TotalCount);
+            Assert.AreEqual(2, viewModel.RetainedIssueCount);
+        }
+
+        [TestMethod]
+        public async Task DisplayMode_NormalStatisticalIssueRetainsEvidenceAndDetailedCounts()
+        {
+            ReportCheckIssue business = CreateIssue("BUS", IssueSeverity.Serious, 0);
+            var occurrence = new ReportCheckOccurrence(
+                "合成正文", string.Empty, new DocumentLocation(DocumentPart.MainBody, 2, null, null, null, null),
+                "正文段落 3", "正文", string.Empty, new[] { "合成 peer 证据" }, new string[0],
+                string.Empty, false, null, "文档 B");
+            var formatting = new ReportCheckIssue("FORMAT", IssueType.BasicFieldParseFailed, IssueSeverity.Normal,
+                "段落格式", "疑似格式异常", "多数 peer 推断", "人工复核", new[] { occurrence }, 1,
+                category: IssueCategory.Formatting, authority: IssueAuthority.HighConfidence,
+                governanceKind: "ParagraphFormatOutlier");
+            MainWindowViewModel viewModel = CreateForResult(new[] { business, formatting });
+            await viewModel.StartCheckAsync();
+            Assert.AreEqual(1, viewModel.TotalCount);
+            Assert.AreEqual(0, viewModel.NormalCount);
+            Assert.AreEqual(1, viewModel.AuxiliaryCount);
+            Assert.AreEqual(2, viewModel.RetainedIssueCount);
+            viewModel.SelectedDisplayMode = IssueDisplayMode.Detailed;
+            Assert.AreEqual(2, viewModel.TotalCount);
+            Assert.AreEqual(1, viewModel.NormalCount);
+            viewModel.SelectedIssue = viewModel.Issues.Single(item => item.IssueId == "FORMAT");
+            StringAssert.Contains(viewModel.SelectedIssueDetails, "合成 peer 证据");
+            Assert.AreSame(occurrence, viewModel.SelectedIssue.Occurrences[0].SourceOccurrence);
+            Assert.IsTrue(viewModel.CopyIssueDetailsCommand.CanExecute(null));
+            viewModel.SelectedDisplayMode = IssueDisplayMode.Focused;
+            Assert.AreEqual(1, viewModel.TotalCount);
+            Assert.AreEqual(2, viewModel.RetainedIssueCount);
+            StringAssert.Contains(viewModel.DisplayModeDescription, "并非已修复");
+        }
+
+        [TestMethod]
+        public void OpenDocumentBCommand_UsesOnlyDocumentBPath()
+        {
+            var launcher = new FakeReportFileLauncher();
+            MainWindowViewModel viewModel = CreateViewModel(
+                new FakeReportCheckService(),
+                launcher);
+            viewModel.TrySelectDocumentA(@"C:\虚构目录\文档A.docx");
+            viewModel.TrySelectDocumentB(@"C:\虚构目录\文档B.docx");
+
+            viewModel.OpenDocumentBCommand.Execute(null);
+
+            Assert.AreEqual(@"C:\虚构目录\文档B.docx", launcher.LastPath);
         }
 
         private static MainWindowViewModel CreateForResult(IEnumerable<ReportCheckIssue> issues)

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using AssetAppraisalChecker.Core.BasicFields;
 using AssetAppraisalChecker.Core.Consistency;
+using AssetAppraisalChecker.Desktop.Workflow.Governance;
 
 namespace AssetAppraisalChecker.Desktop.Workflow
 {
@@ -20,7 +21,11 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             IEnumerable<ReportCheckOccurrence> occurrences,
             int sourceOrder,
             BasicFieldType fieldType = BasicFieldType.Unknown,
-            string expectedValue = null)
+            string expectedValue = null,
+            string issueTypeDisplayOverride = null,
+            IssueCategory category = IssueCategory.Business,
+            IssueAuthority? authority = null,
+            string governanceKind = null)
         {
             if (string.IsNullOrWhiteSpace(issueId))
             {
@@ -44,6 +49,13 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             SourceOrder = sourceOrder;
             FieldType = fieldType;
             ExpectedValue = expectedValue ?? string.Empty;
+            IssueTypeDisplayOverride = issueTypeDisplayOverride ?? string.Empty;
+            Category = category;
+            Authority = authority ?? IssueGovernancePolicy.ForBusiness(issueType).Authority;
+            GovernanceKind = string.IsNullOrWhiteSpace(governanceKind)
+                ? issueType.ToString()
+                : governanceKind.Trim();
+            StableId = IssueStableIdentity.Create(Category, GovernanceKind, Occurrences);
         }
 
         public string IssueId { get; }
@@ -67,6 +79,16 @@ namespace AssetAppraisalChecker.Desktop.Workflow
         public BasicFieldType FieldType { get; }
 
         public string ExpectedValue { get; }
+
+        public string IssueTypeDisplayOverride { get; }
+
+        public IssueCategory Category { get; }
+
+        public IssueAuthority Authority { get; }
+
+        public string GovernanceKind { get; }
+
+        public string StableId { get; }
 
         public string PrimaryLocation
         {

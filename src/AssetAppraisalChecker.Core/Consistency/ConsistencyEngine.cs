@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AssetAppraisalChecker.Core.BusinessFields;
+using AssetAppraisalChecker.Core.Documents;
 
 namespace AssetAppraisalChecker.Core.Consistency
 {
@@ -43,6 +44,13 @@ namespace AssetAppraisalChecker.Core.Consistency
             }
 
             return new ConsistencyCheckResult(groups, issues, source.Count - eligible.Count);
+        }
+
+        // Arithmetic is a same-row relationship, not a same-field occurrence comparison.
+        public IReadOnlyList<TableCalculationFinding> CheckTableCalculations(DocumentReadResult document)
+        {
+            if (document == null) throw new ArgumentNullException(nameof(document));
+            return ResultTableArithmetic.Evaluate(document, tolerance.AmountYuan);
         }
 
         private static List<ComparisonGroup> BuildGroups(IEnumerable<MoneyOccurrence> occurrences)

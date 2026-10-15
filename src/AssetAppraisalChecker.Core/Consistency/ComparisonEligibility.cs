@@ -13,7 +13,8 @@ namespace AssetAppraisalChecker.Core.Consistency
                    occurrence.FieldIdentity.ValueCategory != ValueCategory.Unknown &&
                    occurrence.ValueCategoryConfidence != ClassificationConfidence.Low &&
                    occurrence.SubjectKind != SubjectKind.Unknown &&
-                   occurrence.SubjectConfidence != ClassificationConfidence.Low;
+                   occurrence.SubjectConfidence != ClassificationConfidence.Low &&
+                   !MethodCalculationContext.IsMethodSpecificResult(occurrence);
         }
     }
 }

@@ -1,0 +1,80 @@
+{
+  "SchemaVersion": "v2-golden-case/1.0",
+  "CaseId": "V2-GT-401",
+  "ExpectedSemanticCallCount": 0,
+  "ExpectedFacts": [
+    {
+      "DocumentId": "report",
+      "FactType": "ReportNumber",
+      "ExpectedCount": 1,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "report",
+          "OriginalText": "云合成评报字（2026）第001号",
+          "ConfidenceMinimum": "0.95",
+          "Fields": {
+            "Value": "云合成评报字〔2026〕第001号",
+            "NormalizedNumber": "云合成评报字〔2026〕第001号"
+          }
+        }
+      ]
+    },
+    {
+      "DocumentId": "explanation",
+      "FactType": "ReportNumber",
+      "ExpectedCount": 1,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "explanation",
+          "OriginalText": "云合成评报字[2026]第001号",
+          "ConfidenceMinimum": "0.95",
+          "Fields": {
+            "Value": "云合成评报字〔2026〕第001号",
+            "NormalizedNumber": "云合成评报字〔2026〕第001号"
+          }
+        }
+      ]
+    }
+  ],
+  "Semantic": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedCalls": [],
+    "Responses": [],
+    "FailureMessage": ""
+  },
+  "ExpectedExecutions": [
+    { "Order": 1, "CheckerName": "AssessmentObjectChecker", "FactType": "AssessmentObject", "ExecutionStatus": "NotApplicable", "HasConsistencyResult": false, "ErrorInformation": "" },
+    { "Order": 2, "CheckerName": "AssessmentValueChecker", "FactType": "AssessmentValue", "ExecutionStatus": "NotApplicable", "HasConsistencyResult": false, "ErrorInformation": "" },
+    { "Order": 3, "CheckerName": "BenchmarkDateChecker", "FactType": "BenchmarkDate", "ExecutionStatus": "NotApplicable", "HasConsistencyResult": false, "ErrorInformation": "" },
+    { "Order": 4, "CheckerName": "ReportNumberChecker", "FactType": "ReportNumber", "ExecutionStatus": "Succeeded", "HasConsistencyResult": true, "ErrorInformation": "" },
+    {
+      "Order": 5,
+      "CheckerName": "EvaluationMethodChecker",
+      "FactType": "EvaluationMethod",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    }
+  ],
+  "ExpectedAnalysis": {
+    "StatusSummary": "PASS",
+    "ExpectedResultCount": 1,
+    "Results": [
+      {
+        "Order": 1,
+        "FactType": "ReportNumber",
+        "Status": "PASS",
+        "ReasonContains": "精确相等",
+        "RequiredEvidence": [
+          "report",
+          "NormalizedNumber=云合成评报字〔2026〕第001号",
+          "explanation",
+          "ComparisonMode=OrdinalExact"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "CaseId": "V2-GT-203",
+  "InputSha256": {
+    "Report": "1407bd66a7e93310d3f2aab2a355418287b71678eb574e92fb0b8e7be82fd6ec",
+    "Explanation": "014904bc70c9fb17b55baf1ab2c15f92dd8e87785e7fd2899eb4d6c379f5cf64"
+  },
+  "ExpectedFacts": {
+    "Report": {
+      "FactType": "AssessmentValue",
+      "SourceDocument": "report",
+      "OriginalText": "998.22万元",
+      "Value": "9982200.00",
+      "NormalizedAmountYuan": "9982200.00",
+      "ConfidenceMinimum": "0.95"
+    },
+    "Explanation": {
+      "FactType": "AssessmentValue",
+      "SourceDocument": "explanation",
+      "OriginalText": "1000万元",
+      "Value": "10000000.00",
+      "NormalizedAmountYuan": "10000000.00",
+      "ConfidenceMinimum": "0.95"
+    }
+  },
+  "ExpectedResult": {
+    "StatusSummary": "FAIL",
+    "ResultStatus": "FAIL",
+    "FactType": "AssessmentValue",
+    "ResultCount": 1,
+    "ReasonContains": "17800",
+    "RequiredEvidence": [
+      "report | 998.22万元",
+      "explanation | 1000万元"
+    ]
+  },
+  "SemanticExpectedBehavior": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedFields": []
+  }
+}

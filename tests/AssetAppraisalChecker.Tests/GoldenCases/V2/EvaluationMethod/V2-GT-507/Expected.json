@@ -1,0 +1,192 @@
+{
+  "SchemaVersion": "v2-golden-case/2.0",
+  "CaseId": "V2-GT-507",
+  "ExpectedSemanticCallCount": 0,
+  "ExpectedFacts": [
+    {
+      "DocumentId": "report",
+      "FactType": "EvaluationMethod",
+      "ExpectedCount": 2,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "report",
+          "OriginalText": "采用成本法",
+          "ConfidenceMinimum": "0.95",
+          "DocumentPart": "MainBody",
+          "Fields": {
+            "Method": "成本法",
+            "MethodCode": "CostApproach",
+            "MethodFamily": "Cost",
+            "MethodSpecificity": "BasicApproach",
+            "Subject": "房屋建筑物",
+            "SubjectKind": "Building",
+            "NormalizedSubjectKey": "subject/v1:building",
+            "MethodRole": "Unspecified",
+            "SetCompleteness": "Unknown"
+          }
+        },
+        {
+          "SourceDocument": "report",
+          "OriginalText": "采用市场法",
+          "ConfidenceMinimum": "0.95",
+          "DocumentPart": "MainBody",
+          "Fields": {
+            "Method": "市场法",
+            "MethodCode": "MarketApproach",
+            "MethodFamily": "Market",
+            "MethodSpecificity": "BasicApproach",
+            "Subject": "机器设备",
+            "SubjectKind": "MachineryEquipment",
+            "NormalizedSubjectKey": "subject/v1:machinery-equipment",
+            "MethodRole": "Unspecified",
+            "SetCompleteness": "Unknown"
+          }
+        }
+      ]
+    },
+    {
+      "DocumentId": "explanation",
+      "FactType": "EvaluationMethod",
+      "ExpectedCount": 2,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "explanation",
+          "OriginalText": "采用市场法",
+          "ConfidenceMinimum": "0.95",
+          "DocumentPart": "MainBody",
+          "Fields": {
+            "Method": "市场法",
+            "MethodCode": "MarketApproach",
+            "MethodFamily": "Market",
+            "MethodSpecificity": "BasicApproach",
+            "Subject": "机器设备",
+            "SubjectKind": "MachineryEquipment",
+            "NormalizedSubjectKey": "subject/v1:machinery-equipment",
+            "MethodRole": "Unspecified",
+            "SetCompleteness": "Unknown"
+          }
+        },
+        {
+          "SourceDocument": "explanation",
+          "OriginalText": "采用成本法",
+          "ConfidenceMinimum": "0.95",
+          "DocumentPart": "MainBody",
+          "Fields": {
+            "Method": "成本法",
+            "MethodCode": "CostApproach",
+            "MethodFamily": "Cost",
+            "MethodSpecificity": "BasicApproach",
+            "Subject": "房屋建筑物",
+            "SubjectKind": "Building",
+            "NormalizedSubjectKey": "subject/v1:building",
+            "MethodRole": "Unspecified",
+            "SetCompleteness": "Unknown"
+          }
+        }
+      ]
+    }
+  ],
+  "Semantic": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedCalls": [],
+    "Responses": [],
+    "FailureMessage": ""
+  },
+  "ExpectedExecutions": [
+    {
+      "CheckerName": "AssessmentObjectChecker",
+      "FactType": "AssessmentObject",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "AssessmentValueChecker",
+      "FactType": "AssessmentValue",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "BenchmarkDateChecker",
+      "FactType": "BenchmarkDate",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "ReportNumberChecker",
+      "FactType": "ReportNumber",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "EvaluationMethodChecker",
+      "FactType": "EvaluationMethod",
+      "ExecutionStatus": "Succeeded",
+      "ExpectedResultCount": 2,
+      "ErrorInformation": "",
+      "NoResultReason": "",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": [
+        {
+          "Identity": {
+            "FactType": "EvaluationMethod",
+            "SubjectKey": "subject/v1:building",
+            "ResultRole": "AdoptedMethodSet",
+            "ScopeKey": "scope/v1:default"
+          },
+          "Status": "PASS",
+          "ReasonContains": "完全一致",
+          "RequiredEvidence": [
+            "SubjectKey=subject/v1:building"
+          ],
+          "ForbiddenEvidence": [
+            "SubjectKey=subject/v1:machinery-equipment"
+          ]
+        },
+        {
+          "Identity": {
+            "FactType": "EvaluationMethod",
+            "SubjectKey": "subject/v1:machinery-equipment",
+            "ResultRole": "AdoptedMethodSet",
+            "ScopeKey": "scope/v1:default"
+          },
+          "Status": "PASS",
+          "ReasonContains": "完全一致",
+          "RequiredEvidence": [
+            "SubjectKey=subject/v1:machinery-equipment"
+          ],
+          "ForbiddenEvidence": [
+            "SubjectKey=subject/v1:building"
+          ]
+        }
+      ]
+    }
+  ],
+  "ExpectedAnalysis": {
+    "StatusSummary": "PASS",
+    "ExpectedResultCount": 2
+  }
+}

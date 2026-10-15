@@ -1,0 +1,97 @@
+{
+  "SchemaVersion": "v2-golden-case/1.0",
+  "CaseId": "V2-GT-403",
+  "ExpectedSemanticCallCount": 0,
+  "ExpectedFacts": [
+    {
+      "DocumentId": "report",
+      "FactType": "ReportNumber",
+      "ExpectedCount": 1,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "report",
+          "OriginalText": "云合成评报字〔2026〕第001号",
+          "ConfidenceMinimum": "0.95",
+          "Fields": {
+            "Value": "云合成评报字〔2026〕第001号",
+            "NormalizedNumber": "云合成评报字〔2026〕第001号"
+          }
+        }
+      ]
+    },
+    {
+      "DocumentId": "explanation",
+      "FactType": "ReportNumber",
+      "ExpectedCount": 0,
+      "AllowAdditionalFacts": false,
+      "Facts": []
+    }
+  ],
+  "Semantic": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedCalls": [],
+    "Responses": [],
+    "FailureMessage": ""
+  },
+  "ExpectedExecutions": [
+    {
+      "Order": 1,
+      "CheckerName": "AssessmentObjectChecker",
+      "FactType": "AssessmentObject",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 2,
+      "CheckerName": "AssessmentValueChecker",
+      "FactType": "AssessmentValue",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 3,
+      "CheckerName": "BenchmarkDateChecker",
+      "FactType": "BenchmarkDate",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 4,
+      "CheckerName": "ReportNumberChecker",
+      "FactType": "ReportNumber",
+      "ExecutionStatus": "CompletedWithWarning",
+      "HasConsistencyResult": true,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 5,
+      "CheckerName": "EvaluationMethodChecker",
+      "FactType": "EvaluationMethod",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    }
+  ],
+  "ExpectedAnalysis": {
+    "StatusSummary": "WARNING",
+    "ExpectedResultCount": 1,
+    "Results": [
+      {
+        "Order": 1,
+        "FactType": "ReportNumber",
+        "Status": "WARNING",
+        "ReasonContains": "缺少",
+        "RequiredEvidence": [
+          "NormalizedNumber=云合成评报字〔2026〕第001号",
+          "SecondDocument | ReportNumberFactCount=0",
+          "ComparisonMode=OrdinalExact"
+        ]
+      }
+    ]
+  }
+}

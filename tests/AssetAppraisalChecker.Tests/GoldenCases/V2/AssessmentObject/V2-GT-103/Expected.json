@@ -1,0 +1,50 @@
+{
+  "CaseId": "V2-GT-103",
+  "InputSha256": {
+    "Report": "e4b77956b6e3cbe0f6df90ab9b2b7d459287341ca8f9b4a3d87ed6f76414a3cf",
+    "Explanation": "ceb4f43bc9c047b167cea5f775e4304eedbcf198a1aa9add1d222b768ade2061"
+  },
+  "ExpectedFacts": {
+    "Report": {
+      "FactType": "AssessmentObject",
+      "SourceDocument": "report",
+      "AssetType": "供配电资产",
+      "Owner": "虚构华辰资产有限公司",
+      "EconomicAction": "接收",
+      "Quantity": "6",
+      "Scope": "本次列明的全部资产",
+      "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及6家客户，范围为本次列明的全部资产。",
+      "ConfidenceMinimum": "0.95"
+    },
+    "Explanation": {
+      "FactType": "AssessmentObject",
+      "SourceDocument": "explanation",
+      "AssetType": "供配电资产",
+      "Owner": "虚构华辰资产有限公司",
+      "EconomicAction": "接收",
+      "Quantity": "7",
+      "Scope": "本次列明的全部资产",
+      "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及7家客户，范围为本次列明的全部资产。",
+      "ConfidenceMinimum": "0.95"
+    }
+  },
+  "ExpectedResult": {
+    "StatusSummary": "FAIL",
+    "ResultStatus": "FAIL",
+    "FactType": "AssessmentObject",
+    "ResultCount": 1,
+    "ReasonContains": "Quantity",
+    "RequiredEvidence": [
+      "report | 评估对象为虚构华辰资产有限公司接收的供配电资产",
+      "explanation | 评估对象为虚构华辰资产有限公司接收的供配电资产"
+    ]
+  },
+  "SemanticExpectedBehavior": {
+    "Mode": "NoCall",
+    "ExpectedCallCount": 0,
+    "ExpectedFields": [],
+    "SimilarityScore": "0.95",
+    "Confidence": "0.95",
+    "Evidence": "semantic-profile:quantity-conflict-no-call"
+  }
+}

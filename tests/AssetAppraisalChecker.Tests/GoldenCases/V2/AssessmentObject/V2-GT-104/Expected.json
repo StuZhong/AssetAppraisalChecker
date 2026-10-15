@@ -1,0 +1,50 @@
+{
+  "CaseId": "V2-GT-104",
+  "InputSha256": {
+    "Report": "db53c80e19ee9ca843c133b11e61dda6d436c6788df3d44cac0ade2a11f6eaf5",
+    "Explanation": "967f60c7966a3a6b837e5fff3f8e1fe024f9a04ac080aaf462dbafb16b5d2bc2"
+  },
+  "ExpectedFacts": {
+    "Report": {
+      "FactType": "AssessmentObject",
+      "SourceDocument": "report",
+      "AssetType": "供配电资产",
+      "Owner": "虚构甲方资产有限公司",
+      "EconomicAction": "接收",
+      "Quantity": "6",
+      "Scope": "本次列明的全部资产",
+      "OriginalText": "评估对象为虚构甲方资产有限公司接收的供配电资产，涉及6家客户，范围为本次列明的全部资产。",
+      "ConfidenceMinimum": "0.95"
+    },
+    "Explanation": {
+      "FactType": "AssessmentObject",
+      "SourceDocument": "explanation",
+      "AssetType": "供配电资产",
+      "Owner": "虚构乙方资产有限公司",
+      "EconomicAction": "接收",
+      "Quantity": "6",
+      "Scope": "本次列明的全部资产",
+      "OriginalText": "评估对象为虚构乙方资产有限公司接收的供配电资产，涉及6家客户，范围为本次列明的全部资产。",
+      "ConfidenceMinimum": "0.95"
+    }
+  },
+  "ExpectedResult": {
+    "StatusSummary": "FAIL",
+    "ResultStatus": "FAIL",
+    "FactType": "AssessmentObject",
+    "ResultCount": 1,
+    "ReasonContains": "Owner",
+    "RequiredEvidence": [
+      "report | 评估对象为虚构甲方资产有限公司接收的供配电资产",
+      "explanation | 评估对象为虚构乙方资产有限公司接收的供配电资产"
+    ]
+  },
+  "SemanticExpectedBehavior": {
+    "Mode": "NoCall",
+    "ExpectedCallCount": 0,
+    "ExpectedFields": [],
+    "SimilarityScore": "0.95",
+    "Confidence": "0.95",
+    "Evidence": "semantic-profile:owner-conflict-no-call"
+  }
+}

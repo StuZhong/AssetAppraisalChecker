@@ -1,0 +1,47 @@
+{
+  "CaseId": "V2-GT-302",
+  "InputSha256": {
+    "Report": "e6c7f2b7bcbc848f2d704152d897866364c64649706470a5caad3f4442c82674",
+    "Explanation": "75d4f44998836db8020aeb641a04caad7ad002c631c66b18cb9db4d3616cec97"
+  },
+  "ExpectedFacts": {
+    "Report": {
+      "FactType": "BenchmarkDate",
+      "SourceDocument": "report",
+      "OriginalText": "2026年7月31日",
+      "Value": "2026-07-31",
+      "ConfidenceMinimum": "0.95"
+    },
+    "Explanation": {
+      "FactType": "BenchmarkDate",
+      "SourceDocument": "explanation",
+      "OriginalText": "2026.08.01",
+      "Value": "2026-08-01",
+      "ConfidenceMinimum": "0.95"
+    }
+  },
+  "ExpectedExecution": {
+    "CheckerName": "BenchmarkDateChecker",
+    "FactType": "BenchmarkDate",
+    "ExecutionStatus": "Succeeded",
+    "ErrorInformation": ""
+  },
+  "ExpectedResult": {
+    "StatusSummary": "FAIL",
+    "ResultStatus": "FAIL",
+    "FactType": "BenchmarkDate",
+    "ResultCount": 1,
+    "ReasonContains": "明确不同",
+    "RequiredEvidence": [
+      "report",
+      "NormalizedDate=2026-07-31",
+      "explanation",
+      "NormalizedDate=2026-08-01"
+    ]
+  },
+  "SemanticExpectedBehavior": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedFields": []
+  }
+}

@@ -5,6 +5,7 @@ using System.Linq;
 using AssetAppraisalChecker.Core.BasicFields;
 using AssetAppraisalChecker.Core.Consistency;
 using AssetAppraisalChecker.Core.Documents;
+using AssetAppraisalChecker.Desktop.Services.Navigation;
 
 namespace AssetAppraisalChecker.Desktop.Workflow
 {
@@ -22,7 +23,11 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             IEnumerable<ReportCheckIssue> issues,
             bool isSuccess,
             string message,
-            ProjectNameExpectedCheckResult projectNameExpectedCheck = null)
+            ProjectNameExpectedCheckResult projectNameExpectedCheck = null,
+            string documentBFilePath = null,
+            string documentBFileName = null,
+            DocumentReadStatus? documentBReadStatus = null,
+            IEnumerable<CheckedDocumentSource> sourceDocuments = null)
         {
             if (duration < TimeSpan.Zero)
             {
@@ -52,6 +57,11 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             IsSuccess = isSuccess;
             Message = message ?? string.Empty;
             ProjectNameExpectedCheck = projectNameExpectedCheck;
+            DocumentBFilePath = documentBFilePath ?? string.Empty;
+            DocumentBFileName = documentBFileName ?? string.Empty;
+            DocumentBReadStatus = documentBReadStatus;
+            SourceDocuments = new ReadOnlyCollection<CheckedDocumentSource>(
+                (sourceDocuments ?? Enumerable.Empty<CheckedDocumentSource>()).ToList());
         }
 
         public string FilePath { get; }
@@ -85,5 +95,15 @@ namespace AssetAppraisalChecker.Desktop.Workflow
         public string Message { get; }
 
         public ProjectNameExpectedCheckResult ProjectNameExpectedCheck { get; }
+
+        public string DocumentBFilePath { get; }
+
+        public string DocumentBFileName { get; }
+
+        public DocumentReadStatus? DocumentBReadStatus { get; }
+
+        public bool IsCrossDocumentCheck => !string.IsNullOrWhiteSpace(DocumentBFilePath);
+
+        public IReadOnlyList<CheckedDocumentSource> SourceDocuments { get; }
     }
 }

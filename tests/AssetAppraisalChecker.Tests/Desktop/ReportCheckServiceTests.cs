@@ -251,6 +251,7 @@ namespace AssetAppraisalChecker.Tests.Desktop
                         "正在读取报告……",
                         "正在识别金额……",
                         "正在校检基础信息……",
+                        "正在检查文字质量……",
                         "正在生成结果……"
                     },
                     progress.Messages.ToArray());

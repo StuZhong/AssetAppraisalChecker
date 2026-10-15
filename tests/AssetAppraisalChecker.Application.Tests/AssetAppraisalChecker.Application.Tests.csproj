@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>AssetAppraisalChecker.Application.Tests</AssemblyName>
+    <RootNamespace>AssetAppraisalChecker.Application.Tests</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestFramework" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Application\AssetAppraisalChecker.Application.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Core\AssetAppraisalChecker.Core.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.CrossDocument\AssetAppraisalChecker.CrossDocument.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Document\AssetAppraisalChecker.Document.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Facts.Extraction\AssetAppraisalChecker.Facts.Extraction.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Facts\AssetAppraisalChecker.Facts.csproj" />
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\Manifest.json">
+      <Link>GoldenCases\V2\Manifest.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\Runner\**\*">
+      <Link>GoldenCases\V2\Runner\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Semantic\AssetAppraisalChecker.Semantic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\AssessmentObject\**\*">
+      <Link>GoldenCases\V2\AssessmentObject\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\AssessmentValue\**\*">
+      <Link>GoldenCases\V2\AssessmentValue\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\BenchmarkDate\**\*">
+      <Link>GoldenCases\V2\BenchmarkDate\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\ReportNumber\**\*">
+      <Link>GoldenCases\V2\ReportNumber\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\Integrated\**\*">
+      <Link>GoldenCases\V2\Integrated\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\AssetAppraisalChecker.Tests\GoldenCases\V2\EvaluationMethod\**\*">
+      <Link>GoldenCases\V2\EvaluationMethod\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

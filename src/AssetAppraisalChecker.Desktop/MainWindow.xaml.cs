@@ -14,16 +14,34 @@ namespace AssetAppraisalChecker.Desktop
         public MainWindow()
         {
             InitializeComponent();
+            var checkService = DesktopLocalAiService.CreateConfigured();
             DataContext = new MainWindowViewModel(
-                new ReportCheckService(),
+                checkService,
                 new WindowsReportFileLauncher());
+            Closed += (sender, args) => checkService.Dispose();
         }
 
-        private void SelectReportButton_Click(object sender, RoutedEventArgs e)
+        private void SelectDocumentAButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectDocument("选择文档 A", false);
+        }
+
+        private void SelectDocumentBButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectDocument("选择文档 B（可选）", true);
+        }
+
+        private void ClearDocumentBButton_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = DataContext as MainWindowViewModel;
+            viewModel?.ClearDocumentB();
+        }
+
+        private void SelectDocument(string title, bool isDocumentB)
         {
             var dialog = new OpenFileDialog
             {
-                Title = "选择资产评估报告",
+                Title = title,
                 Filter = ReportFileDialogFilter,
                 DefaultExt = ".docx",
                 AddExtension = true,
@@ -35,7 +53,14 @@ namespace AssetAppraisalChecker.Desktop
             if (selected == true)
             {
                 var viewModel = DataContext as MainWindowViewModel;
-                viewModel?.TrySelectFile(dialog.FileName);
+                if (isDocumentB)
+                {
+                    viewModel?.TrySelectDocumentB(dialog.FileName);
+                }
+                else
+                {
+                    viewModel?.TrySelectDocumentA(dialog.FileName);
+                }
             }
         }
     }

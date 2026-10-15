@@ -5,6 +5,8 @@ namespace AssetAppraisalChecker.Core.Consistency
         MoneyConflict = 1,
         BasicFieldConflict = 2,
         BasicFieldParseFailed = 3,
-        ProjectNameExpectedMismatch = 4
+        ProjectNameExpectedMismatch = 4,
+        EvaluationConclusionValidityAnomaly = 5,
+        TableCalculationConflict = 6
     }
 }

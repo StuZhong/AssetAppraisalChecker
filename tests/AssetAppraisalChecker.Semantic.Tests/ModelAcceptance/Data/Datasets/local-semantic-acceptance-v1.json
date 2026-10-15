@@ -1,0 +1,444 @@
+{
+  "SchemaVersion": "local-semantic-acceptance-dataset/1.0",
+  "DatasetVersion": "local-semantic-acceptance/v1.0.0",
+  "DataClassification": "SyntheticOnly",
+  "Cases": [
+    {
+      "CaseId": "SEM-EVM-001",
+      "Category": "Positive",
+      "InputText": "对房屋建筑物按现行重建成本测算并考虑成新率。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:building",
+      "ExpectedSubjectKey": "subject/v1:building",
+      "ExpectedCandidate": "method/v1:replacement-cost-approach",
+      "ExpectedDecisionClass": "AcceptedCandidate",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:replacement-cost-approach", "DisplayValue": "重置成本法", "ModelConfidence": 0.98, "SimilarityScore": 0.97 }
+      ],
+      "Notes": "重建成本自然语言映射到重置成本法候选。"
+    },
+    {
+      "CaseId": "SEM-EVM-002",
+      "Category": "Positive",
+      "InputText": "房屋建筑物价值参考近期同类资产公开成交案例确定。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:building",
+      "ExpectedSubjectKey": "subject/v1:building",
+      "ExpectedCandidate": "method/v1:market-approach",
+      "ExpectedDecisionClass": "AcceptedCandidate",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:market-approach", "DisplayValue": "市场法", "ModelConfidence": 0.97, "SimilarityScore": 0.96 }
+      ],
+      "Notes": "市场成交案例表达映射到市场法候选。"
+    },
+    {
+      "CaseId": "SEM-EVM-003",
+      "Category": "Positive",
+      "InputText": "企业整体价值根据未来可获得收益折现测算。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:enterprise",
+      "ExpectedSubjectKey": "subject/v1:enterprise",
+      "ExpectedCandidate": "method/v1:income-approach",
+      "ExpectedDecisionClass": "AcceptedCandidate",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:income-approach", "DisplayValue": "收益法", "ModelConfidence": 0.99, "SimilarityScore": 0.98 }
+      ],
+      "Notes": "未来收益折现表达映射到收益法候选。"
+    },
+    {
+      "CaseId": "SEM-AOB-001",
+      "Category": "Positive",
+      "InputText": "本次对象为配电线路、变压设备及其附属供电设施。",
+      "CandidateType": "AssessmentObjectAssetType",
+      "SubjectKey": "subject/v1:power-distribution-assets",
+      "ExpectedSubjectKey": "subject/v1:power-distribution-assets",
+      "ExpectedCandidate": "asset-type/v1:power-distribution-assets",
+      "ExpectedDecisionClass": "AcceptedCandidate",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "asset-type/v1:power-distribution-assets", "DisplayValue": "供配电资产", "ModelConfidence": 0.96, "SimilarityScore": 0.95 }
+      ],
+      "Notes": "AssetType近义表达。"
+    },
+    {
+      "CaseId": "SEM-AOB-002",
+      "Category": "Positive",
+      "InputText": "本次经济行为是由虚构移交方将机器设备无偿交由虚构接收方持有。",
+      "CandidateType": "AssessmentObjectEconomicAction",
+      "SubjectKey": "subject/v1:machinery",
+      "ExpectedSubjectKey": "subject/v1:machinery",
+      "ExpectedCandidate": "economic-action/v1:receive",
+      "ExpectedDecisionClass": "AcceptedCandidate",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "economic-action/v1:receive", "DisplayValue": "接收", "ModelConfidence": 0.95, "SimilarityScore": 0.94 }
+      ],
+      "Notes": "EconomicAction近义表达。"
+    },
+    {
+      "CaseId": "SEM-AOB-003",
+      "Category": "Positive",
+      "InputText": "评估边界限于本次合成移交清单列示的房屋建筑物。",
+      "CandidateType": "AssessmentObjectScope",
+      "SubjectKey": "subject/v1:building",
+      "ExpectedSubjectKey": "subject/v1:building",
+      "ExpectedCandidate": "scope/v1:listed-transfer-assets",
+      "ExpectedDecisionClass": "AcceptedCandidate",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "scope/v1:listed-transfer-assets", "DisplayValue": "移交清单所列资产", "ModelConfidence": 0.95, "SimilarityScore": 0.93 }
+      ],
+      "Notes": "Scope近义表达。"
+    },
+    {
+      "CaseId": "SEM-EVM-101",
+      "Category": "HardNegative",
+      "InputText": "规则事实为成本法，语义候选为重置成本法。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:machinery",
+      "ExpectedSubjectKey": "subject/v1:machinery",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": true,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:replacement-cost-approach", "DisplayValue": "重置成本法", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "成本法与重置成本法专业相关但不自动等价。"
+    },
+    {
+      "CaseId": "SEM-EVM-102",
+      "Category": "HardNegative",
+      "InputText": "规则事实明确为市场法，语义候选却为收益法。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:enterprise",
+      "ExpectedSubjectKey": "subject/v1:enterprise",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": true,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:income-approach", "DisplayValue": "收益法", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "明确方法冲突不得被语义高分覆盖。"
+    },
+    {
+      "CaseId": "SEM-EVM-103",
+      "Category": "HardNegative",
+      "InputText": "机器设备未采用收益法。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:machinery",
+      "ExpectedSubjectKey": "subject/v1:machinery",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": true,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": true,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:income-approach", "DisplayValue": "收益法", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "否定表达不能产生Adopted方法。"
+    },
+    {
+      "CaseId": "SEM-EVM-104",
+      "Category": "HardNegative",
+      "InputText": "房屋建筑物不适用市场法。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:building",
+      "ExpectedSubjectKey": "subject/v1:building",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": true,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": true,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:market-approach", "DisplayValue": "市场法", "ModelConfidence": 0.98, "SimilarityScore": 0.98 }
+      ],
+      "Notes": "不适用语义必须阻断候选接受。"
+    },
+    {
+      "CaseId": "SEM-EVM-105",
+      "Category": "HardNegative",
+      "InputText": "曾考虑成本法，最终明确采用市场法。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:building",
+      "ExpectedSubjectKey": "subject/v1:building",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": true,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:cost-approach", "DisplayValue": "成本法", "ModelConfidence": 0.97, "SimilarityScore": 0.98 }
+      ],
+      "Notes": "历史备选方法不能覆盖最终采用方法。"
+    },
+    {
+      "CaseId": "SEM-EVM-106",
+      "Category": "HardNegative",
+      "InputText": "房屋建筑物采用成本法，但候选被错误绑定到机器设备。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:machinery",
+      "ExpectedSubjectKey": "subject/v1:building",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": true,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:cost-approach", "DisplayValue": "成本法", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "Subject错配必须优先拒绝。"
+    },
+    {
+      "CaseId": "SEM-AOB-101",
+      "Category": "HardNegative",
+      "InputText": "规则对象为房屋建筑物，候选却绑定为机器设备。",
+      "CandidateType": "AssessmentObjectAssetType",
+      "SubjectKey": "subject/v1:machinery",
+      "ExpectedSubjectKey": "subject/v1:building",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": true,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "asset-type/v1:machinery", "DisplayValue": "机器设备", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "文本相似不能跨资产Subject。"
+    },
+    {
+      "CaseId": "SEM-EVM-201",
+      "Category": "Abstention",
+      "InputText": "该描述可能接近成本途径，也可能接近重置成本途径。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:machinery",
+      "ExpectedSubjectKey": "subject/v1:machinery",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Warning",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": true,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:cost-approach", "DisplayValue": "成本法", "ModelConfidence": 0.94, "SimilarityScore": 0.94 },
+        { "NormalizedCandidate": "method/v1:replacement-cost-approach", "DisplayValue": "重置成本法", "ModelConfidence": 0.92, "SimilarityScore": 0.93 }
+      ],
+      "Notes": "多候选Margin不足时必须弃权。"
+    },
+    {
+      "CaseId": "SEM-EVM-202",
+      "Category": "Abstention",
+      "InputText": "本次采用适当方式开展分析。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:enterprise",
+      "ExpectedSubjectKey": "subject/v1:enterprise",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Warning",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": true,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [],
+      "Notes": "证据不足时Fake Adapter显式无候选。"
+    },
+    {
+      "CaseId": "SEM-EVM-203",
+      "Category": "Abstention",
+      "InputText": "采用市场成交资料测算，但无法确认对应资产对象。",
+      "CandidateType": "EvaluationMethod",
+      "SubjectKey": "subject/v1:unresolved",
+      "ExpectedSubjectKey": "subject/v1:unresolved",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Warning",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": true,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "method/v1:market-approach", "DisplayValue": "市场法", "ModelConfidence": 0.97, "SimilarityScore": 0.96 }
+      ],
+      "Notes": "Subject unresolved时不得接受。"
+    },
+    {
+      "CaseId": "SEM-AOB-201",
+      "Category": "Abstention",
+      "InputText": "对象可能为房屋建筑物，也可能为机器设备。",
+      "CandidateType": "AssessmentObjectAssetType",
+      "SubjectKey": "subject/v1:assessment-object",
+      "ExpectedSubjectKey": "subject/v1:assessment-object",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Warning",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": true,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "asset-type/v1:building", "DisplayValue": "房屋建筑物", "ModelConfidence": 0.93, "SimilarityScore": 0.93 },
+        { "NormalizedCandidate": "asset-type/v1:machinery", "DisplayValue": "机器设备", "ModelConfidence": 0.91, "SimilarityScore": 0.92 }
+      ],
+      "Notes": "多个资产类型竞争时不得猜测。"
+    },
+    {
+      "CaseId": "SEM-AOB-202",
+      "Category": "Abstention",
+      "InputText": "评估范围涉及清单中的部分相关资产，具体边界待确认。",
+      "CandidateType": "AssessmentObjectScope",
+      "SubjectKey": "subject/v1:assessment-object",
+      "ExpectedSubjectKey": "subject/v1:assessment-object",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Warning",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": true,
+      "HardRuleProtection": false,
+      "HasNegation": false,
+      "HasHardRuleConflict": false,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "scope/v1:partial-listed-assets", "DisplayValue": "部分清单资产", "ModelConfidence": 0.72, "SimilarityScore": 0.91 }
+      ],
+      "Notes": "低ModelConfidence触发弃权。"
+    },
+    {
+      "CaseId": "SEM-SAFE-001",
+      "Category": "Safety",
+      "InputText": "评估价值为九百万元。",
+      "CandidateType": "AssessmentValue",
+      "SubjectKey": "subject/v1:project-total",
+      "ExpectedSubjectKey": "subject/v1:project-total",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "amount/v1:synthetic-value", "DisplayValue": "九百万元", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "AssessmentValue永久由硬规则保护。"
+    },
+    {
+      "CaseId": "SEM-SAFE-002",
+      "Category": "Safety",
+      "InputText": "评估基准日为二〇二六年三月一日。",
+      "CandidateType": "BenchmarkDate",
+      "SubjectKey": "subject/v1:benchmark-date",
+      "ExpectedSubjectKey": "subject/v1:benchmark-date",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "date/v1:synthetic-date", "DisplayValue": "合成基准日", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "BenchmarkDate永久由硬规则保护。"
+    },
+    {
+      "CaseId": "SEM-SAFE-003",
+      "Category": "Safety",
+      "InputText": "报告编号为合成评报字第甲号。",
+      "CandidateType": "ReportNumber",
+      "SubjectKey": "subject/v1:report-number",
+      "ExpectedSubjectKey": "subject/v1:report-number",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "report-number/v1:synthetic", "DisplayValue": "合成评报字第甲号", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "ReportNumber永久由硬规则保护。"
+    },
+    {
+      "CaseId": "SEM-SAFE-004",
+      "Category": "Safety",
+      "InputText": "模型候选数量为八台，但规则数量为六台。",
+      "CandidateType": "Quantity",
+      "SubjectKey": "subject/v1:machinery",
+      "ExpectedSubjectKey": "subject/v1:machinery",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "quantity/v1:synthetic-eight", "DisplayValue": "八台", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "Quantity硬冲突禁止语义消解。"
+    },
+    {
+      "CaseId": "SEM-SAFE-005",
+      "Category": "Safety",
+      "InputText": "规则主体为虚构甲方，模型候选主体为虚构乙方。",
+      "CandidateType": "Owner",
+      "SubjectKey": "subject/v1:synthetic-owner",
+      "ExpectedSubjectKey": "subject/v1:synthetic-owner",
+      "ExpectedCandidate": null,
+      "ExpectedDecisionClass": "Rejected",
+      "IsHardNegative": false,
+      "IsAbstentionExpected": false,
+      "HardRuleProtection": true,
+      "HasNegation": false,
+      "HasHardRuleConflict": true,
+      "SimulatedCandidates": [
+        { "NormalizedCandidate": "owner/v1:synthetic-party-b", "DisplayValue": "虚构乙方", "ModelConfidence": 0.99, "SimilarityScore": 0.99 }
+      ],
+      "Notes": "Owner硬冲突禁止语义消解。"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "SchemaVersion": "v2-golden-case/1.0",
+  "CaseId": "V2-GT-103",
+  "ExpectedSemanticCallCount": 0,
+  "ExpectedFacts": [
+    {
+      "DocumentId": "report",
+      "FactType": "AssessmentObject",
+      "ExpectedCount": 1,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "report",
+          "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及6家客户，范围为本次列明的全部资产。",
+          "ConfidenceMinimum": "0.95",
+          "Fields": {
+            "AssetType": "供配电资产",
+            "Owner": "虚构华辰资产有限公司",
+            "EconomicAction": "接收",
+            "Quantity": "6",
+            "Scope": "本次列明的全部资产"
+          }
+        }
+      ]
+    },
+    {
+      "DocumentId": "explanation",
+      "FactType": "AssessmentObject",
+      "ExpectedCount": 1,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "explanation",
+          "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及7家客户，范围为本次列明的全部资产。",
+          "ConfidenceMinimum": "0.95",
+          "Fields": {
+            "AssetType": "供配电资产",
+            "Owner": "虚构华辰资产有限公司",
+            "EconomicAction": "接收",
+            "Quantity": "7",
+            "Scope": "本次列明的全部资产"
+          }
+        }
+      ]
+    }
+  ],
+  "Semantic": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedCalls": [],
+    "Responses": [],
+    "FailureMessage": ""
+  },
+  "ExpectedExecutions": [
+    {
+      "Order": 1,
+      "CheckerName": "AssessmentObjectChecker",
+      "FactType": "AssessmentObject",
+      "ExecutionStatus": "Succeeded",
+      "HasConsistencyResult": true,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 2,
+      "CheckerName": "AssessmentValueChecker",
+      "FactType": "AssessmentValue",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 3,
+      "CheckerName": "BenchmarkDateChecker",
+      "FactType": "BenchmarkDate",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 4,
+      "CheckerName": "ReportNumberChecker",
+      "FactType": "ReportNumber",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    },
+    {
+      "Order": 5,
+      "CheckerName": "EvaluationMethodChecker",
+      "FactType": "EvaluationMethod",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    }
+  ],
+  "ExpectedAnalysis": {
+    "StatusSummary": "FAIL",
+    "ExpectedResultCount": 1,
+    "Results": [
+      {
+        "Order": 1,
+        "FactType": "AssessmentObject",
+        "Status": "FAIL",
+        "ReasonContains": "Quantity",
+        "RequiredEvidence": [
+          "report | 评估对象为虚构华辰资产有限公司接收的供配电资产",
+          "explanation | 评估对象为虚构华辰资产有限公司接收的供配电资产"
+        ]
+      }
+    ]
+  }
+}

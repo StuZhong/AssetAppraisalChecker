@@ -1,0 +1,36 @@
+namespace AssetAppraisalChecker.Mechanical
+{
+    public enum MechanicalIssueKind
+    {
+        DuplicateWord,
+        DuplicateSentence,
+        DuplicateParagraph,
+        ConsecutiveSpaces,
+        ChineseTextSpacing,
+        LeadingSpace,
+        TrailingSpace,
+        Tab,
+        ConsecutiveBlankParagraphs,
+        ControlCharacter,
+        RepeatedPunctuation,
+        UnpairedChineseBracket,
+        UnpairedChineseQuote,
+        UnpairedBookTitle,
+        MissingEndingPunctuation,
+        SequenceJump,
+        SequenceDuplicate,
+        SequenceReverse,
+        SequenceStyleMismatch,
+        CommentResidue,
+        InsertedRevision,
+        DeletedRevision,
+        Highlight,
+        Strikethrough,
+        FontStyleOutlier,
+        ParagraphFormatOutlier,
+        UnitConsistency,
+        TemplateInstructionResidue,
+        UnreplacedFieldPlaceholder,
+        BracketWidthMismatch
+    }
+}

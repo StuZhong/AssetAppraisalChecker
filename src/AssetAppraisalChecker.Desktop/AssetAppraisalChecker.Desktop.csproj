@@ -6,10 +6,22 @@
     <AssemblyName>AssetAppraisalChecker.Desktop</AssemblyName>
     <RootNamespace>AssetAppraisalChecker.Desktop</RootNamespace>
     <LangVersion>7.3</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="System.Configuration" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Semantic.LocalRuntime\AssetAppraisalChecker.Semantic.LocalRuntime.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Application\AssetAppraisalChecker.Application.csproj" />
     <ProjectReference Include="..\AssetAppraisalChecker.Core\AssetAppraisalChecker.Core.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.CrossDocument\AssetAppraisalChecker.CrossDocument.csproj" />
     <ProjectReference Include="..\AssetAppraisalChecker.Document\AssetAppraisalChecker.Document.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Facts\AssetAppraisalChecker.Facts.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Facts.Extraction\AssetAppraisalChecker.Facts.Extraction.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Mechanical\AssetAppraisalChecker.Mechanical.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Semantic\AssetAppraisalChecker.Semantic.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.TextQuality\AssetAppraisalChecker.TextQuality.csproj" />
   </ItemGroup>
 </Project>

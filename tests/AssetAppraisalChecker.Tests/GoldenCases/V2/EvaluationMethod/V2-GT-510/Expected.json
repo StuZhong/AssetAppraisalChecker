@@ -1,0 +1,141 @@
+{
+  "SchemaVersion": "v2-golden-case/2.0",
+  "CaseId": "V2-GT-510",
+  "ExpectedSemanticCallCount": 1,
+  "ExpectedFacts": [
+    {
+      "DocumentId": "report",
+      "FactType": "EvaluationMethod",
+      "ExpectedCount": 1,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "report",
+          "OriginalText": "采用重置成本法",
+          "ConfidenceMinimum": "0.95",
+          "DocumentPart": "MainBody",
+          "Fields": {
+            "Method": "重置成本法",
+            "MethodCode": "ReplacementCostMethod",
+            "MethodFamily": "Cost",
+            "MethodSpecificity": "SpecificMethod",
+            "Subject": "房屋建筑物",
+            "SubjectKind": "Building",
+            "NormalizedSubjectKey": "subject/v1:building",
+            "MethodRole": "Unspecified",
+            "SetCompleteness": "Unknown"
+          }
+        }
+      ]
+    },
+    {
+      "DocumentId": "explanation",
+      "FactType": "EvaluationMethod",
+      "ExpectedCount": 0,
+      "AllowAdditionalFacts": false,
+      "Facts": []
+    }
+  ],
+  "Semantic": {
+    "Mode": "DeterministicMock",
+    "ExpectedCallCount": 1,
+    "ExpectedCalls": [
+      {
+        "Order": 1,
+        "FieldName": "EvaluationMethod",
+        "OriginalValue": "房屋建筑物按现行重建成本测算。",
+        "CandidateValue": "UnresolvedMethodCandidate"
+      }
+    ],
+    "Responses": [
+      {
+        "FieldName": "EvaluationMethod",
+        "SimilarityScore": "0.90",
+        "Confidence": "0.80",
+        "Evidence": [
+          "离线候选仅供人工复核，不改变规则结论。"
+        ]
+      }
+    ],
+    "FailureMessage": ""
+  },
+  "ExpectedExecutions": [
+    {
+      "CheckerName": "AssessmentObjectChecker",
+      "FactType": "AssessmentObject",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "AssessmentValueChecker",
+      "FactType": "AssessmentValue",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "BenchmarkDateChecker",
+      "FactType": "BenchmarkDate",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "ReportNumberChecker",
+      "FactType": "ReportNumber",
+      "ExecutionStatus": "NotApplicable",
+      "ExpectedResultCount": 0,
+      "ErrorInformation": "",
+      "NoResultReason": "当前 Checker 没有适用的事实，未生成一致性结果。",
+      "RequiredExecutionEvidence": [],
+      "ForbiddenExecutionEvidence": [],
+      "Results": []
+    },
+    {
+      "CheckerName": "EvaluationMethodChecker",
+      "FactType": "EvaluationMethod",
+      "ExecutionStatus": "CompletedWithWarning",
+      "ExpectedResultCount": 1,
+      "ErrorInformation": "",
+      "NoResultReason": "",
+      "RequiredExecutionEvidence": [
+        "SemanticCandidateOnly"
+      ],
+      "ForbiddenExecutionEvidence": [],
+      "Results": [
+        {
+          "Identity": {
+            "FactType": "EvaluationMethod",
+            "SubjectKey": "subject/v1:building",
+            "ResultRole": "AdoptedMethodSet",
+            "ScopeKey": "scope/v1:default"
+          },
+          "Status": "WARNING",
+          "ReasonContains": "至少一侧",
+          "RequiredEvidence": [
+            "SubjectKey=subject/v1:building",
+            "Applicability=CandidateUnknown"
+          ],
+          "ForbiddenEvidence": []
+        }
+      ]
+    }
+  ],
+  "ExpectedAnalysis": {
+    "StatusSummary": "WARNING",
+    "ExpectedResultCount": 1
+  }
+}

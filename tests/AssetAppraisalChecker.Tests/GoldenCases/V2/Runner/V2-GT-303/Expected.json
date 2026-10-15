@@ -1,0 +1,69 @@
+{
+  "SchemaVersion": "v2-golden-case/1.0",
+  "CaseId": "V2-GT-303",
+  "ExpectedSemanticCallCount": 0,
+  "ExpectedFacts": [
+    {
+      "DocumentId": "report",
+      "FactType": "BenchmarkDate",
+      "ExpectedCount": 1,
+      "AllowAdditionalFacts": false,
+      "Facts": [
+        {
+          "SourceDocument": "report",
+          "OriginalText": "2026/07/31",
+          "ConfidenceMinimum": "0.95",
+          "Fields": {
+            "Value": "2026-07-31",
+            "NormalizedDate": "2026-07-31"
+          }
+        }
+      ]
+    },
+    {
+      "DocumentId": "explanation",
+      "FactType": "BenchmarkDate",
+      "ExpectedCount": 0,
+      "AllowAdditionalFacts": false,
+      "Facts": []
+    }
+  ],
+  "Semantic": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedCalls": [],
+    "Responses": [],
+    "FailureMessage": ""
+  },
+  "ExpectedExecutions": [
+    { "Order": 1, "CheckerName": "AssessmentObjectChecker", "FactType": "AssessmentObject", "ExecutionStatus": "NotApplicable", "HasConsistencyResult": false, "ErrorInformation": "" },
+    { "Order": 2, "CheckerName": "AssessmentValueChecker", "FactType": "AssessmentValue", "ExecutionStatus": "NotApplicable", "HasConsistencyResult": false, "ErrorInformation": "" },
+    { "Order": 3, "CheckerName": "BenchmarkDateChecker", "FactType": "BenchmarkDate", "ExecutionStatus": "CompletedWithWarning", "HasConsistencyResult": true, "ErrorInformation": "" },
+    { "Order": 4, "CheckerName": "ReportNumberChecker", "FactType": "ReportNumber", "ExecutionStatus": "NotApplicable", "HasConsistencyResult": false, "ErrorInformation": "" },
+    {
+      "Order": 5,
+      "CheckerName": "EvaluationMethodChecker",
+      "FactType": "EvaluationMethod",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    }
+  ],
+  "ExpectedAnalysis": {
+    "StatusSummary": "WARNING",
+    "ExpectedResultCount": 1,
+    "Results": [
+      {
+        "Order": 1,
+        "FactType": "BenchmarkDate",
+        "Status": "WARNING",
+        "ReasonContains": "缺少",
+        "RequiredEvidence": [
+          "report",
+          "2026/07/31",
+          "SecondDocument | BenchmarkDateFactCount=0"
+        ]
+      }
+    ]
+  }
+}

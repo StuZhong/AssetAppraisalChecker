@@ -14,6 +14,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
             }
 
             DisplayIndex = displayIndex;
+            SourceOccurrence = occurrence;
             RawText = occurrence.RawText;
             NormalizedValue = occurrence.NormalizedValue;
             LocationText = occurrence.LocationText;
@@ -27,9 +28,15 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 occurrence.Warnings.Select(item => "• " + item));
             NearbyContext = occurrence.NearbyContext;
             IsSuspectedOutlier = occurrence.IsSuspectedOutlier;
+            DocumentLabel = occurrence.DocumentLabel;
         }
 
         public int DisplayIndex { get; }
+
+        public ReportCheckOccurrence SourceOccurrence { get; }
+
+        public string NavigationDisplay =>
+            (HasDocumentLabel ? DocumentLabel : "当前文档") + " · 位置 " + DisplayIndex + " · " + LocationText;
 
         public string RawText { get; }
 
@@ -56,6 +63,10 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
         public bool HasNearbyContext => !string.IsNullOrWhiteSpace(NearbyContext);
 
         public bool IsSuspectedOutlier { get; }
+
+        public string DocumentLabel { get; }
+
+        public bool HasDocumentLabel => !string.IsNullOrWhiteSpace(DocumentLabel);
 
         public string OutlierDisplay => IsSuspectedOutlier ? "疑似异常" : string.Empty;
     }

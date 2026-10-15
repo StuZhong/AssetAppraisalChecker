@@ -20,7 +20,8 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             IEnumerable<string> warnings,
             string nearbyContext,
             bool isSuspectedOutlier,
-            ReportLevelProjectNameCandidate projectNameCandidate = null)
+            ReportLevelProjectNameCandidate projectNameCandidate = null,
+            string documentLabel = null)
         {
             Location = location ?? throw new ArgumentNullException(nameof(location));
             RawText = rawText ?? string.Empty;
@@ -35,6 +36,7 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             NearbyContext = nearbyContext ?? string.Empty;
             IsSuspectedOutlier = isSuspectedOutlier;
             ProjectNameCandidate = projectNameCandidate;
+            DocumentLabel = documentLabel ?? string.Empty;
         }
 
         public string RawText { get; }
@@ -58,5 +60,7 @@ namespace AssetAppraisalChecker.Desktop.Workflow
         public bool IsSuspectedOutlier { get; }
 
         public ReportLevelProjectNameCandidate ProjectNameCandidate { get; }
+
+        public string DocumentLabel { get; }
     }
 }

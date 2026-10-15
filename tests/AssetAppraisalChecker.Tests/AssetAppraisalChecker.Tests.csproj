@@ -4,6 +4,8 @@
     <AssemblyName>AssetAppraisalChecker.Tests</AssemblyName>
     <RootNamespace>AssetAppraisalChecker.Tests</RootNamespace>
     <LangVersion>7.3</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
@@ -18,9 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Application\AssetAppraisalChecker.Application.csproj" />
     <ProjectReference Include="..\..\src\AssetAppraisalChecker.Core\AssetAppraisalChecker.Core.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.CrossDocument\AssetAppraisalChecker.CrossDocument.csproj" />
     <ProjectReference Include="..\..\src\AssetAppraisalChecker.Document\AssetAppraisalChecker.Document.csproj" />
     <ProjectReference Include="..\..\src\AssetAppraisalChecker.Desktop\AssetAppraisalChecker.Desktop.csproj" />
     <ProjectReference Include="..\..\src\AssetAppraisalChecker.Diagnostics\AssetAppraisalChecker.Diagnostics.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Mechanical\AssetAppraisalChecker.Mechanical.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Facts\AssetAppraisalChecker.Facts.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.TextQuality\AssetAppraisalChecker.TextQuality.csproj" />
   </ItemGroup>
 </Project>

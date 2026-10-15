@@ -1,0 +1,624 @@
+{
+  "SchemaVersion": "v2-golden-manifest/1.0",
+  "Cases": [
+    {
+      "Order": 101,
+      "CaseId": "V2-GT-101",
+      "ExpectedFile": "Runner/V2-GT-101/Expected.json",
+      "LegacyExpectedFile": "AssessmentObject/V2-GT-101/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentObject/V2-GT-101/Report.docx",
+          "Sha256": "3e2c0a41c8b0e9e0d6cec97a261f43396d187faa1ef263665c9043ac7b879ea2"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentObject/V2-GT-101/Explanation.docx",
+          "Sha256": "3e2c0a41c8b0e9e0d6cec97a261f43396d187faa1ef263665c9043ac7b879ea2"
+        }
+      ]
+    },
+    {
+      "Order": 102,
+      "CaseId": "V2-GT-102",
+      "ExpectedFile": "Runner/V2-GT-102/Expected.json",
+      "LegacyExpectedFile": "AssessmentObject/V2-GT-102/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentObject/V2-GT-102/Report.docx",
+          "Sha256": "00ed595df84049ecbf1d44f60a128a0b252d3cf4ca0632f36902f07d9fc243c5"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentObject/V2-GT-102/Explanation.docx",
+          "Sha256": "e7e1a0991a2b5c5bd2588817b4ff3b1742cd3c8cb265249072c764627fe7ded8"
+        }
+      ]
+    },
+    {
+      "Order": 103,
+      "CaseId": "V2-GT-103",
+      "ExpectedFile": "Runner/V2-GT-103/Expected.json",
+      "LegacyExpectedFile": "AssessmentObject/V2-GT-103/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentObject/V2-GT-103/Report.docx",
+          "Sha256": "e4b77956b6e3cbe0f6df90ab9b2b7d459287341ca8f9b4a3d87ed6f76414a3cf"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentObject/V2-GT-103/Explanation.docx",
+          "Sha256": "ceb4f43bc9c047b167cea5f775e4304eedbcf198a1aa9add1d222b768ade2061"
+        }
+      ]
+    },
+    {
+      "Order": 104,
+      "CaseId": "V2-GT-104",
+      "ExpectedFile": "Runner/V2-GT-104/Expected.json",
+      "LegacyExpectedFile": "AssessmentObject/V2-GT-104/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentObject/V2-GT-104/Report.docx",
+          "Sha256": "db53c80e19ee9ca843c133b11e61dda6d436c6788df3d44cac0ade2a11f6eaf5"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentObject/V2-GT-104/Explanation.docx",
+          "Sha256": "967f60c7966a3a6b837e5fff3f8e1fe024f9a04ac080aaf462dbafb16b5d2bc2"
+        }
+      ]
+    },
+    {
+      "Order": 105,
+      "CaseId": "V2-GT-105",
+      "ExpectedFile": "Runner/V2-GT-105/Expected.json",
+      "LegacyExpectedFile": "AssessmentObject/V2-GT-105/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentObject/V2-GT-105/Report.docx",
+          "Sha256": "a940a1c64ac3aa4bab50408ed8f9dca496531d8c03e79b6b159de31f78f6dff2"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentObject/V2-GT-105/Explanation.docx",
+          "Sha256": "3be089472f2cba159a0838d7a038605fa324876d3dd2a67f28b4287fea8ab3db"
+        }
+      ]
+    },
+    {
+      "Order": 201,
+      "CaseId": "V2-GT-201",
+      "ExpectedFile": "Runner/V2-GT-201/Expected.json",
+      "LegacyExpectedFile": "AssessmentValue/V2-GT-201/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentValue/V2-GT-201/Report.docx",
+          "Sha256": "1407bd66a7e93310d3f2aab2a355418287b71678eb574e92fb0b8e7be82fd6ec"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentValue/V2-GT-201/Explanation.docx",
+          "Sha256": "1407bd66a7e93310d3f2aab2a355418287b71678eb574e92fb0b8e7be82fd6ec"
+        }
+      ]
+    },
+    {
+      "Order": 202,
+      "CaseId": "V2-GT-202",
+      "ExpectedFile": "Runner/V2-GT-202/Expected.json",
+      "LegacyExpectedFile": "AssessmentValue/V2-GT-202/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentValue/V2-GT-202/Report.docx",
+          "Sha256": "1407bd66a7e93310d3f2aab2a355418287b71678eb574e92fb0b8e7be82fd6ec"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentValue/V2-GT-202/Explanation.docx",
+          "Sha256": "0ff8e0c7e0a780ee7293debbcbebb4f2a481c64d7f805a5407137aa9c88707ca"
+        }
+      ]
+    },
+    {
+      "Order": 203,
+      "CaseId": "V2-GT-203",
+      "ExpectedFile": "Runner/V2-GT-203/Expected.json",
+      "LegacyExpectedFile": "AssessmentValue/V2-GT-203/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentValue/V2-GT-203/Report.docx",
+          "Sha256": "1407bd66a7e93310d3f2aab2a355418287b71678eb574e92fb0b8e7be82fd6ec"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentValue/V2-GT-203/Explanation.docx",
+          "Sha256": "014904bc70c9fb17b55baf1ab2c15f92dd8e87785e7fd2899eb4d6c379f5cf64"
+        }
+      ]
+    },
+    {
+      "Order": 204,
+      "CaseId": "V2-GT-204",
+      "ExpectedFile": "Runner/V2-GT-204/Expected.json",
+      "LegacyExpectedFile": "AssessmentValue/V2-GT-204/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "AssessmentValue/V2-GT-204/Report.docx",
+          "Sha256": "1407bd66a7e93310d3f2aab2a355418287b71678eb574e92fb0b8e7be82fd6ec"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "AssessmentValue/V2-GT-204/Explanation.docx",
+          "Sha256": "6ecc96ac33e12428706033fe59b28bd7c45066f42b385a7088d1eacd6af293a8"
+        }
+      ]
+    },
+    {
+      "Order": 301,
+      "CaseId": "V2-GT-301",
+      "ExpectedFile": "Runner/V2-GT-301/Expected.json",
+      "LegacyExpectedFile": "BenchmarkDate/V2-GT-301/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "BenchmarkDate/V2-GT-301/Report.docx",
+          "Sha256": "e6c7f2b7bcbc848f2d704152d897866364c64649706470a5caad3f4442c82674"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "BenchmarkDate/V2-GT-301/Explanation.docx",
+          "Sha256": "be5edd18cac81ab2516d357b565e3a549292a6d42d284070479ea919d1bed4c6"
+        }
+      ]
+    },
+    {
+      "Order": 302,
+      "CaseId": "V2-GT-302",
+      "ExpectedFile": "Runner/V2-GT-302/Expected.json",
+      "LegacyExpectedFile": "BenchmarkDate/V2-GT-302/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "BenchmarkDate/V2-GT-302/Report.docx",
+          "Sha256": "e6c7f2b7bcbc848f2d704152d897866364c64649706470a5caad3f4442c82674"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "BenchmarkDate/V2-GT-302/Explanation.docx",
+          "Sha256": "75d4f44998836db8020aeb641a04caad7ad002c631c66b18cb9db4d3616cec97"
+        }
+      ]
+    },
+    {
+      "Order": 303,
+      "CaseId": "V2-GT-303",
+      "ExpectedFile": "Runner/V2-GT-303/Expected.json",
+      "LegacyExpectedFile": "BenchmarkDate/V2-GT-303/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "BenchmarkDate/V2-GT-303/Report.docx",
+          "Sha256": "4d2e6b34819ec487bb160fd9e1a72e8a2357d60d3903df24e9f72690a5ec97b3"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "BenchmarkDate/V2-GT-303/Explanation.docx",
+          "Sha256": "1630701a67feadd6484c2a6f50c3061600fe42ca88761c0bd7f64e22912655a6"
+        }
+      ]
+    },
+    {
+      "Order": 401,
+      "CaseId": "V2-GT-401",
+      "ExpectedFile": "Runner/V2-GT-401/Expected.json",
+      "LegacyExpectedFile": "ReportNumber/V2-GT-401/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "ReportNumber/V2-GT-401/Report.docx",
+          "Sha256": "d3d5374a9d408d3e9ecf6f452117a419f1ba8c987aa3c4a2f7a99b5756db8734"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "ReportNumber/V2-GT-401/Explanation.docx",
+          "Sha256": "638ae99b1b14857d3e4a4f904f792f8cf44bd7030107ecaaa69e3a8ca7a61529"
+        }
+      ]
+    },
+    {
+      "Order": 402,
+      "CaseId": "V2-GT-402",
+      "ExpectedFile": "Runner/V2-GT-402/Expected.json",
+      "LegacyExpectedFile": "ReportNumber/V2-GT-402/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "ReportNumber/V2-GT-402/Report.docx",
+          "Sha256": "df25cfc261332ac735322ed92f6d7fcc256bb05ea287c825390db1d91908ec0a"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "ReportNumber/V2-GT-402/Explanation.docx",
+          "Sha256": "1b562017c5718f7cf2823a82deda443de619453f7cf1d7d788dd200e558cabb4"
+        }
+      ]
+    },
+    {
+      "Order": 403,
+      "CaseId": "V2-GT-403",
+      "ExpectedFile": "Runner/V2-GT-403/Expected.json",
+      "LegacyExpectedFile": "ReportNumber/V2-GT-403/Expected.json",
+      "LegacySchemaVersion": "legacy-v2-golden-case/1.0",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "ReportNumber/V2-GT-403/Report.docx",
+          "Sha256": "52512ba6a72b295fd7b1217af95079c6804cf17212d35bdb1e4eec4d8458d08e"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "ReportNumber/V2-GT-403/Explanation.docx",
+          "Sha256": "0205502b21ec7e82e09ba4df28339befd6daa0064e9a0b7ce3119ccf1f2170d4"
+        }
+      ]
+    },
+    {
+      "Order": 901,
+      "CaseId": "V2-GT-901",
+      "ExpectedFile": "Runner/V2-GT-901/Expected.json",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "Integrated/V2-GT-901/Report.docx",
+          "Sha256": "8f464d24efcd3ad7cb713948796ff87ed9669f48d12af83592f47cb85da91fc1"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "Integrated/V2-GT-901/Explanation.docx",
+          "Sha256": "43fd59d8f28d7eef430284cc5a57726124f769c31fd4b7063cf20671194e8d75"
+        }
+      ]
+    },
+    {
+      "Order": 902,
+      "CaseId": "V2-GT-902",
+      "ExpectedFile": "Runner/V2-GT-902/Expected.json",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "Integrated/V2-GT-902/Report.docx",
+          "Sha256": "167f7f08f2bc8d943be9b61eb792385f4ca36bf20e6cf9e02c5c526bf329700c"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "Integrated/V2-GT-902/Explanation.docx",
+          "Sha256": "86460f55c3827e57ca59bfe4ed4b3229b3ae647f0294092d9602638ec7d05c0a"
+        }
+      ]
+    },
+    {
+      "Order": 903,
+      "CaseId": "V2-GT-903",
+      "ExpectedFile": "Runner/V2-GT-903/Expected.json",
+      "Inputs": [
+        {
+          "DocumentId": "report",
+          "Role": "Report",
+          "File": "Integrated/V2-GT-903/Report.docx",
+          "Sha256": "ea9fed322f3ec52853b1e758da86628442953764e59b9571c0abc928bcf4c16e"
+        },
+        {
+          "DocumentId": "explanation",
+          "Role": "Explanation",
+          "File": "Integrated/V2-GT-903/Explanation.docx",
+          "Sha256": "93002f1f66dca414b2977fc6e669c941bc6331978eb83e69f023f80ae3a2ce37"
+        }
+      ]
+    },
+    {
+        "Order": 501,
+        "CaseId": "V2-GT-501",
+        "ExpectedFile": "EvaluationMethod/V2-GT-501/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-501/Report.docx",
+            "Sha256": "7f2c4e37fdfdab1fa092119f7590e4a9c711587c0701862698b132cfa2e2bd26"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-501/Explanation.docx",
+            "Sha256": "ce0b332930a90a84448c8d707d09d6489747922c481a4c891981445ff597c6b2"
+          }
+        ]
+      },
+      {
+        "Order": 502,
+        "CaseId": "V2-GT-502",
+        "ExpectedFile": "EvaluationMethod/V2-GT-502/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-502/Report.docx",
+            "Sha256": "9f3c74a1f688ffe826547b7a93aead242d9920c29b2d102e5d6ef865115d14b6"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-502/Explanation.docx",
+            "Sha256": "0201ec46d5d75dd28766828a2b894e303c6d7e7ea67e852eb13e4dcf8fa235fc"
+          }
+        ]
+      },
+      {
+        "Order": 503,
+        "CaseId": "V2-GT-503",
+        "ExpectedFile": "EvaluationMethod/V2-GT-503/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-503/Report.docx",
+            "Sha256": "5f4c1da8ce9808dbb672933e4c033685888b35576282c7ab95586383e0f0b576"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-503/Explanation.docx",
+            "Sha256": "edbce903f4efc7a0246abd1e6540cef9402ad44079f7dc1454f86f42fb49ceaf"
+          }
+        ]
+      },
+      {
+        "Order": 504,
+        "CaseId": "V2-GT-504",
+        "ExpectedFile": "EvaluationMethod/V2-GT-504/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-504/Report.docx",
+            "Sha256": "31b70c7cf1a3b6a840891144629d33d909aca04186295f8da754ea6a8f3f5067"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-504/Explanation.docx",
+            "Sha256": "c375c27adc55178d1088861423952ff1772d9b934f9b0e9b752f07f1487a1900"
+          }
+        ]
+      },
+      {
+        "Order": 505,
+        "CaseId": "V2-GT-505",
+        "ExpectedFile": "EvaluationMethod/V2-GT-505/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-505/Report.docx",
+            "Sha256": "674a9863cb59a50202e73b6991bdff3b8294632d7556120e427aefd625aaf98c"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-505/Explanation.docx",
+            "Sha256": "0b098a4c29995427c67ac1df9660f004969dffc1978c40efac97dc565627c029"
+          }
+        ]
+      },
+      {
+        "Order": 506,
+        "CaseId": "V2-GT-506",
+        "ExpectedFile": "EvaluationMethod/V2-GT-506/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-506/Report.docx",
+            "Sha256": "ed6e746ceffd7cf19ec741aa23063d161575e5eda97f2cdaa95664b728fa660c"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-506/Explanation.docx",
+            "Sha256": "862fe79c567f16ae0434138b18436cf553ba39ef3c0d8418c9fc262c2b6c0c80"
+          }
+        ]
+      },
+      {
+        "Order": 507,
+        "CaseId": "V2-GT-507",
+        "ExpectedFile": "EvaluationMethod/V2-GT-507/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-507/Report.docx",
+            "Sha256": "426406004e6cc8bb8d6b08b16074baa99c97b64665704d9e7b99312cb7966a30"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-507/Explanation.docx",
+            "Sha256": "a8784e78718ecc79f1aadddf4fc8b661975467bbaa6de0746d02ff3ae14107f2"
+          }
+        ]
+      },
+      {
+        "Order": 508,
+        "CaseId": "V2-GT-508",
+        "ExpectedFile": "EvaluationMethod/V2-GT-508/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-508/Report.docx",
+            "Sha256": "eb1c3b4780b80029d8328c6aa4c37a9287e88a4fcb3a9006fbcd429b9f472698"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-508/Explanation.docx",
+            "Sha256": "b80a88f632e163b6dbb2d604b688ee826ad12aa753039f1034b1e6abf5f73aa3"
+          }
+        ]
+      },
+      {
+        "Order": 509,
+        "CaseId": "V2-GT-509",
+        "ExpectedFile": "EvaluationMethod/V2-GT-509/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-509/Report.docx",
+            "Sha256": "70d56f3e8be52e4bda59daa430b0e6d540bd34fa03fb88961d0418a617013e1c"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-509/Explanation.docx",
+            "Sha256": "7484b79df7cfea4860156182e8c8ca2db583c061243d4c4f7617cf7ae9823300"
+          }
+        ]
+      },
+      {
+        "Order": 510,
+        "CaseId": "V2-GT-510",
+        "ExpectedFile": "EvaluationMethod/V2-GT-510/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-510/Report.docx",
+            "Sha256": "f2fe0b3c050fea40b6fb933a74bb0374bdc467d494efe9053be7c9861a2a60f3"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-510/Explanation.docx",
+            "Sha256": "99da446c44ea517b1542579206423398458b6780e64e2cfc33e30ba2b099e9ce"
+          }
+        ]
+      },
+      {
+        "Order": 511,
+        "CaseId": "V2-GT-511",
+        "ExpectedFile": "EvaluationMethod/V2-GT-511/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-511/Report.docx",
+            "Sha256": "9736d2b6268ad474eded62a1b875a8d0b5dfddae51b56868e81acad9894002e8"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-511/Explanation.docx",
+            "Sha256": "f1012ef0cda94e9597fa7e6729862fb903fab03e2cc471678e82434d0ec91f93"
+          }
+        ]
+      },
+      {
+        "Order": 512,
+        "CaseId": "V2-GT-512",
+        "ExpectedFile": "EvaluationMethod/V2-GT-512/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-512/Report.docx",
+            "Sha256": "b3e98f2cd2f4e13fdcfeda214f3baa92b3deb09f4b04239f445a0a89b5253fdd"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-512/Explanation.docx",
+            "Sha256": "d9e7a57c58b616461a90d2c45b5930797d8d8a6c6024adeaa66a73ff6de25d5a"
+          }
+        ]
+      },
+      {
+        "Order": 513,
+        "CaseId": "V2-GT-513",
+        "ExpectedFile": "EvaluationMethod/V2-GT-513/Expected.json",
+        "Inputs": [
+          {
+            "DocumentId": "report",
+            "Role": "Report",
+            "File": "EvaluationMethod/V2-GT-513/Report.docx",
+            "Sha256": "29ad37a7ed019bce5c991826ad11da0630dd0f6926c3dd45bb4ac91b0e245700"
+          },
+          {
+            "DocumentId": "explanation",
+            "Role": "Explanation",
+            "File": "EvaluationMethod/V2-GT-513/Explanation.docx",
+            "Sha256": "2c41cf7cd71d9e57f5c8be051b3583ed158bea8d91a3769e861bd0d34478592f"
+          }
+        ]
+      }
+  ]
+}

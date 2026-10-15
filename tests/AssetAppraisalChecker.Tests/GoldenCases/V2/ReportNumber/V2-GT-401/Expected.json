@@ -1,0 +1,47 @@
+{
+  "CaseId": "V2-GT-401",
+  "InputSha256": {
+    "Report": "d3d5374a9d408d3e9ecf6f452117a419f1ba8c987aa3c4a2f7a99b5756db8734",
+    "Explanation": "638ae99b1b14857d3e4a4f904f792f8cf44bd7030107ecaaa69e3a8ca7a61529"
+  },
+  "ExpectedFacts": {
+    "Report": {
+      "FactType": "ReportNumber",
+      "SourceDocument": "report",
+      "OriginalText": "云合成评报字（2026）第001号",
+      "Value": "云合成评报字〔2026〕第001号",
+      "ConfidenceMinimum": "0.95"
+    },
+    "Explanation": {
+      "FactType": "ReportNumber",
+      "SourceDocument": "explanation",
+      "OriginalText": "云合成评报字[2026]第001号",
+      "Value": "云合成评报字〔2026〕第001号",
+      "ConfidenceMinimum": "0.95"
+    }
+  },
+  "ExpectedExecution": {
+    "CheckerName": "ReportNumberChecker",
+    "FactType": "ReportNumber",
+    "ExecutionStatus": "Succeeded",
+    "ErrorInformation": ""
+  },
+  "ExpectedResult": {
+    "StatusSummary": "PASS",
+    "ResultStatus": "PASS",
+    "FactType": "ReportNumber",
+    "ResultCount": 1,
+    "ReasonContains": "精确相等",
+    "RequiredEvidence": [
+      "report",
+      "NormalizedNumber=云合成评报字〔2026〕第001号",
+      "explanation",
+      "ComparisonMode=OrdinalExact"
+    ]
+  },
+  "SemanticExpectedBehavior": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedFields": []
+  }
+}

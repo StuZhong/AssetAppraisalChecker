@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>AssetAppraisalChecker.CrossDocument</AssemblyName>
+    <RootNamespace>AssetAppraisalChecker.CrossDocument</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AssetAppraisalChecker.Facts\AssetAppraisalChecker.Facts.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Semantic\AssetAppraisalChecker.Semantic.csproj" />
+  </ItemGroup>
+</Project>

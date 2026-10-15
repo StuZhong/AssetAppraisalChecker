@@ -1,0 +1,52 @@
+{
+  "CaseId": "V2-GT-102",
+  "InputSha256": {
+    "Report": "00ed595df84049ecbf1d44f60a128a0b252d3cf4ca0632f36902f07d9fc243c5",
+    "Explanation": "e7e1a0991a2b5c5bd2588817b4ff3b1742cd3c8cb265249072c764627fe7ded8"
+  },
+  "ExpectedFacts": {
+    "Report": {
+      "FactType": "AssessmentObject",
+      "SourceDocument": "report",
+      "AssetType": "供配电资产",
+      "Owner": "虚构华辰资产有限公司",
+      "EconomicAction": "接收",
+      "Quantity": "6",
+      "Scope": "全部供配电资产",
+      "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及6家客户，范围为全部供配电资产。",
+      "ConfidenceMinimum": "0.95"
+    },
+    "Explanation": {
+      "FactType": "AssessmentObject",
+      "SourceDocument": "explanation",
+      "AssetType": "供配电资产",
+      "Owner": "虚构华辰资产有限公司",
+      "EconomicAction": "接收",
+      "Quantity": "6",
+      "Scope": "供配电资产全部范围",
+      "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及6家客户，范围为供配电资产全部范围。",
+      "ConfidenceMinimum": "0.95"
+    }
+  },
+  "ExpectedResult": {
+    "StatusSummary": "PASS",
+    "ResultStatus": "PASS",
+    "FactType": "AssessmentObject",
+    "ResultCount": 1,
+    "ReasonContains": "Semantic",
+    "RequiredEvidence": [
+      "report | 评估对象为虚构华辰资产有限公司接收的供配电资产",
+      "explanation | 评估对象为虚构华辰资产有限公司接收的供配电资产",
+      "Semantic | Scope",
+      "semantic-profile:scope-equivalent-pass"
+    ]
+  },
+  "SemanticExpectedBehavior": {
+    "Mode": "Success",
+    "ExpectedCallCount": 1,
+    "ExpectedFields": ["Scope"],
+    "SimilarityScore": "0.95",
+    "Confidence": "0.95",
+    "Evidence": "semantic-profile:scope-equivalent-pass"
+  }
+}

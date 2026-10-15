@@ -1,0 +1,40 @@
+{
+  "CaseId": "V2-GT-403",
+  "InputSha256": {
+    "Report": "52512ba6a72b295fd7b1217af95079c6804cf17212d35bdb1e4eec4d8458d08e",
+    "Explanation": "0205502b21ec7e82e09ba4df28339befd6daa0064e9a0b7ce3119ccf1f2170d4"
+  },
+  "ExpectedFacts": {
+    "Report": {
+      "FactType": "ReportNumber",
+      "SourceDocument": "report",
+      "OriginalText": "云合成评报字〔2026〕第001号",
+      "Value": "云合成评报字〔2026〕第001号",
+      "ConfidenceMinimum": "0.95"
+    },
+    "Explanation": null
+  },
+  "ExpectedExecution": {
+    "CheckerName": "ReportNumberChecker",
+    "FactType": "ReportNumber",
+    "ExecutionStatus": "CompletedWithWarning",
+    "ErrorInformation": ""
+  },
+  "ExpectedResult": {
+    "StatusSummary": "WARNING",
+    "ResultStatus": "WARNING",
+    "FactType": "ReportNumber",
+    "ResultCount": 1,
+    "ReasonContains": "缺少",
+    "RequiredEvidence": [
+      "NormalizedNumber=云合成评报字〔2026〕第001号",
+      "SecondDocument | ReportNumberFactCount=0",
+      "ComparisonMode=OrdinalExact"
+    ]
+  },
+  "SemanticExpectedBehavior": {
+    "Mode": "Forbidden",
+    "ExpectedCallCount": 0,
+    "ExpectedFields": []
+  }
+}

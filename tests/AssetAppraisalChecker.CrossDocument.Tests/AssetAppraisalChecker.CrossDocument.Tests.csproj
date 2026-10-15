@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>AssetAppraisalChecker.CrossDocument.Tests</AssemblyName>
+    <RootNamespace>AssetAppraisalChecker.CrossDocument.Tests</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.8.1" />
+    <PackageReference Include="MSTest.TestAdapter" Version="4.3.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="MSTest.TestFramework" Version="4.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.CrossDocument\AssetAppraisalChecker.CrossDocument.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Facts\AssetAppraisalChecker.Facts.csproj" />
+    <ProjectReference Include="..\..\src\AssetAppraisalChecker.Semantic\AssetAppraisalChecker.Semantic.csproj" />
+  </ItemGroup>
+</Project>

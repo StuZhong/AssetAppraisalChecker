@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AssetAppraisalChecker.Core.Consistency;
 using AssetAppraisalChecker.Desktop.Infrastructure;
 using AssetAppraisalChecker.Desktop.Services;
+using AssetAppraisalChecker.Desktop.Services.Navigation;
 using AssetAppraisalChecker.Desktop.Workflow;
 
 namespace AssetAppraisalChecker.Desktop.ViewModels
@@ -17,10 +18,18 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
     {
         private readonly IReportCheckService _reportCheckService;
         private readonly IReportFileLauncher _reportFileLauncher;
+        private readonly ISourceNavigationService _navigation;
+        private readonly ITextClipboard _clipboard;
+        private IReadOnlyList<CheckedDocumentSource> _sources = new CheckedDocumentSource[0];
+        private OccurrenceViewModel _selectedNavigationOccurrence;
+        private string _navigationMessage = string.Empty;
+        private bool _isNavigating;
         private readonly List<IssueViewModel> _allIssues = new List<IssueViewModel>();
         private string _selectedFilePath = string.Empty;
-        private string _selectedFileName = "尚未选择报告";
-        private string _statusMessage = "尚未选择报告";
+        private string _selectedFileName = "尚未选择文档 A";
+        private string _documentBPath = string.Empty;
+        private string _documentBFileName = "尚未选择（可选）";
+        private string _statusMessage = "尚未选择文档 A";
         private string _resultMessage = "尚未执行校检。";
         private string _expectedProjectName = string.Empty;
         private bool _isBusy;
@@ -28,16 +37,22 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
         private int _normalCount;
         private int _reminderCount;
         private IssueSeverityFilter _selectedFilter = IssueSeverityFilter.All;
+        private IssueDisplayMode _selectedDisplayMode = IssueDisplayMode.Focused;
+        private string _lastCheckMessage = string.Empty;
         private IssueViewModel _selectedIssue;
 
         public MainWindowViewModel(
             IReportCheckService reportCheckService,
-            IReportFileLauncher reportFileLauncher)
+            IReportFileLauncher reportFileLauncher,
+            ISourceNavigationService navigation = null,
+            ITextClipboard clipboard = null)
         {
             _reportCheckService = reportCheckService ??
                                   throw new ArgumentNullException(nameof(reportCheckService));
             _reportFileLauncher = reportFileLauncher ??
                                   throw new ArgumentNullException(nameof(reportFileLauncher));
+            _navigation = navigation ?? new SourceNavigationService();
+            _clipboard = clipboard ?? new WindowsTextClipboard();
             Issues = new ObservableCollection<IssueViewModel>();
             FilterOptions = new ReadOnlyCollection<IssueFilterOption>(new[]
             {
@@ -46,19 +61,121 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 new IssueFilterOption(IssueSeverityFilter.Normal, "一般"),
                 new IssueFilterOption(IssueSeverityFilter.Reminder, "提醒")
             });
+            DisplayModeOptions = new ReadOnlyCollection<IssueDisplayModeOption>(new[]
+            {
+                new IssueDisplayModeOption(IssueDisplayMode.Focused, "重点质控"),
+                new IssueDisplayModeOption(IssueDisplayMode.Detailed, "详细检查")
+            });
             StartCheckCommand = new AsyncRelayCommand(StartCheckAsync, () => CanStartCheck);
-            OpenReportCommand = new RelayCommand(
-                _ => OpenSelectedReport(),
-                _ => CanOpenReport);
+            OpenDocumentACommand = new RelayCommand(
+                _ => OpenDocument(SelectedFilePath),
+                _ => CanOpenDocumentA);
+            OpenDocumentBCommand = new RelayCommand(
+                _ => OpenDocument(DocumentBPath),
+                _ => CanOpenDocumentB);
+            OpenReportCommand = OpenDocumentACommand;
+            NavigateToSourceCommand = new AsyncRelayCommand(NavigateToSourceAsync,
+                () => SelectedNavigationOccurrence != null && !IsBusy && !IsNavigating);
+            CopyIssueDetailsCommand = new RelayCommand(_ => CopyText(SelectedIssueDetails, "问题详情"), _ => HasSelectedIssue);
+            CopySourceSnippetCommand = new RelayCommand(_ => CopyText(SelectedNavigationOccurrence?.RawText, "原文片段"),
+                _ => !string.IsNullOrEmpty(SelectedNavigationOccurrence?.RawText));
+            OpenSourceCommand = new RelayCommand(_ => OpenSource(), _ => NavigationSource != null && !IsBusy && !IsNavigating);
         }
 
         public ObservableCollection<IssueViewModel> Issues { get; }
 
+        public string AiStatusMessage => IsBusy ? "本次校检进行中，AI 实际执行状态待确认……"
+            : ((_reportCheckService as ILocalAiStatusProvider)?.AiStatusMessage
+                ?? "规则校检模式；未接入本地 AI。");
+
         public IReadOnlyList<IssueFilterOption> FilterOptions { get; }
+        public IReadOnlyList<IssueDisplayModeOption> DisplayModeOptions { get; }
 
         public AsyncRelayCommand StartCheckCommand { get; }
 
         public RelayCommand OpenReportCommand { get; }
+
+        public RelayCommand OpenDocumentACommand { get; }
+
+        public RelayCommand OpenDocumentBCommand { get; }
+
+        public AsyncRelayCommand NavigateToSourceCommand { get; }
+        public RelayCommand CopyIssueDetailsCommand { get; }
+        public RelayCommand CopySourceSnippetCommand { get; }
+        public RelayCommand OpenSourceCommand { get; }
+        public string SelectedIssueDetails => IssueDetailsFormatter.Format(SelectedIssue, _sources);
+        public string NavigationMessage { get => _navigationMessage; private set => SetProperty(ref _navigationMessage, value); }
+        public bool IsNavigating
+        {
+            get => _isNavigating;
+            private set
+            {
+                if (SetProperty(ref _isNavigating, value))
+                {
+                    RefreshNavigationCommands();
+                    OnPropertyChanged(nameof(CanStartCheck));
+                    StartCheckCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+        public OccurrenceViewModel SelectedNavigationOccurrence
+        {
+            get => _selectedNavigationOccurrence;
+            set
+            {
+                if (value != null && (SelectedIssue == null || !SelectedIssue.Occurrences.Contains(value))) return;
+                if (SetProperty(ref _selectedNavigationOccurrence, value))
+                {
+                    NavigationMessage = string.Empty;
+                    RefreshNavigationCommands();
+                }
+            }
+        }
+        private CheckedDocumentSource NavigationSource =>
+            SourceNavigationService.FindSource(_sources, SelectedNavigationOccurrence?.SourceOccurrence);
+
+        private void RefreshNavigationCommands()
+        {
+            NavigateToSourceCommand?.RaiseCanExecuteChanged();
+            CopyIssueDetailsCommand?.RaiseCanExecuteChanged();
+            CopySourceSnippetCommand?.RaiseCanExecuteChanged();
+            OpenSourceCommand?.RaiseCanExecuteChanged();
+        }
+
+        public async Task NavigateToSourceAsync()
+        {
+            if (SelectedNavigationOccurrence == null || IsBusy || IsNavigating) return;
+            OccurrenceViewModel occurrence = SelectedNavigationOccurrence;
+            IsNavigating = true;
+            NavigationMessage = "正在核验原文并请求 WPS/Word 定位……";
+            try
+            {
+                SourceNavigationResult result = await _navigation.NavigateAsync(NavigationSource, occurrence.SourceOccurrence);
+                if (ReferenceEquals(occurrence, SelectedNavigationOccurrence))
+                    NavigationMessage = (result.Status == SourceNavigationStatus.Exact ? "精确定位：" :
+                        result.Status == SourceNavigationStatus.ParagraphOnly ? "段落定位：" :
+                        result.Status == SourceNavigationStatus.TableCell ? "单元格定位：" :
+                        result.Status == SourceNavigationStatus.TableRow ? "表格行定位：" : "无法定位：") + result.Message;
+            }
+            catch (Exception)
+            {
+                if (ReferenceEquals(occurrence, SelectedNavigationOccurrence))
+                    NavigationMessage = "无法使用 WPS/Word 精确定位功能。可打开原文或复制片段手动查找。";
+            }
+            finally { IsNavigating = false; }
+        }
+
+        private void CopyText(string text, string label)
+        {
+            NavigationMessage = _clipboard.TryCopy(text) ? "已复制" + label + "。" : "剪贴板当前不可用，请稍后重试或选中文字按 Ctrl+C。";
+        }
+
+        private void OpenSource()
+        {
+            if (NavigationSource == null) return;
+            ReportFileLaunchResult result = _reportFileLauncher.Open(NavigationSource.FullPath);
+            NavigationMessage = result.Message + " 此操作仅打开文件，不代表已精确定位；可手动 Ctrl+F 查找。";
+        }
 
         public string SelectedFilePath
         {
@@ -70,8 +187,11 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                     OnPropertyChanged(nameof(HasSelectedFile));
                     OnPropertyChanged(nameof(CanStartCheck));
                     OnPropertyChanged(nameof(CanOpenReport));
+                    OnPropertyChanged(nameof(DocumentAPath));
+                    OnPropertyChanged(nameof(HasDocumentA));
+                    OnPropertyChanged(nameof(CanOpenDocumentA));
                     StartCheckCommand.RaiseCanExecuteChanged();
-                    OpenReportCommand.RaiseCanExecuteChanged();
+                    OpenDocumentACommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -79,14 +199,52 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
         public string SelectedFileName
         {
             get => _selectedFileName;
-            private set => SetProperty(ref _selectedFileName, value);
+            private set
+            {
+                if (SetProperty(ref _selectedFileName, value))
+                {
+                    OnPropertyChanged(nameof(DocumentAFileName));
+                }
+            }
         }
 
         public bool HasSelectedFile => !string.IsNullOrWhiteSpace(SelectedFilePath);
 
-        public bool CanStartCheck => HasSelectedFile && !IsBusy;
+        public string DocumentAPath => SelectedFilePath;
+
+        public string DocumentAFileName => SelectedFileName;
+
+        public bool HasDocumentA => HasSelectedFile;
+
+        public string DocumentBPath
+        {
+            get => _documentBPath;
+            private set
+            {
+                if (SetProperty(ref _documentBPath, value))
+                {
+                    OnPropertyChanged(nameof(HasDocumentB));
+                    OnPropertyChanged(nameof(CanOpenDocumentB));
+                    OpenDocumentBCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public string DocumentBFileName
+        {
+            get => _documentBFileName;
+            private set => SetProperty(ref _documentBFileName, value);
+        }
+
+        public bool HasDocumentB => !string.IsNullOrWhiteSpace(DocumentBPath);
+
+        public bool CanStartCheck => HasSelectedFile && !IsBusy && !IsNavigating;
 
         public bool CanOpenReport => HasSelectedFile && !IsBusy;
+
+        public bool CanOpenDocumentA => CanOpenReport;
+
+        public bool CanOpenDocumentB => HasDocumentB && !IsBusy;
 
         public string ExpectedProjectName
         {
@@ -115,8 +273,12 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 {
                     OnPropertyChanged(nameof(CanStartCheck));
                     OnPropertyChanged(nameof(CanOpenReport));
+                    OnPropertyChanged(nameof(CanOpenDocumentA));
+                    OnPropertyChanged(nameof(CanOpenDocumentB));
                     StartCheckCommand.RaiseCanExecuteChanged();
-                    OpenReportCommand.RaiseCanExecuteChanged();
+                    OpenDocumentACommand.RaiseCanExecuteChanged();
+                    OpenDocumentBCommand.RaiseCanExecuteChanged();
+                    RefreshNavigationCommands();
                 }
             }
         }
@@ -141,6 +303,21 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
         public int TotalCount => SeriousCount + NormalCount + ReminderCount;
 
+        public int AuxiliaryCount => _allIssues.Count(IssueAttentionPolicy.IsAuxiliary);
+        public int RetainedIssueCount => _allIssues.Count;
+        public string DisplayModeDescription => SelectedDisplayMode == IssueDisplayMode.Focused
+            ? "当前显示重点质控；另有 " + AuxiliaryCount + " 条辅助提示保留在详细检查中，并非已修复。"
+            : "当前显示全部 " + RetainedIssueCount + " 条检查记录（含 " + AuxiliaryCount + " 条辅助提示）。";
+
+        public IssueDisplayMode SelectedDisplayMode
+        {
+            get => _selectedDisplayMode;
+            set
+            {
+                if (SetProperty(ref _selectedDisplayMode, value)) RefreshVisibleIssues();
+            }
+        }
+
         public IssueSeverityFilter SelectedFilter
         {
             get => _selectedFilter;
@@ -161,6 +338,9 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 if (SetProperty(ref _selectedIssue, value))
                 {
                     OnPropertyChanged(nameof(HasSelectedIssue));
+                    OnPropertyChanged(nameof(SelectedIssueDetails));
+                    SelectedNavigationOccurrence = value?.Occurrences.FirstOrDefault();
+                    RefreshNavigationCommands();
                 }
             }
         }
@@ -169,7 +349,22 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
         public bool TrySelectFile(string filePath)
         {
-            if (IsBusy)
+            return TrySelectDocumentA(filePath);
+        }
+
+        public bool TrySelectDocumentA(string filePath)
+        {
+            return TrySelectDocument(filePath, false);
+        }
+
+        public bool TrySelectDocumentB(string filePath)
+        {
+            return TrySelectDocument(filePath, true);
+        }
+
+        private bool TrySelectDocument(string filePath, bool isDocumentB)
+        {
+            if (IsBusy || IsNavigating)
             {
                 return false;
             }
@@ -187,7 +382,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
             if (string.Equals(extension, ".doc", StringComparison.OrdinalIgnoreCase))
             {
-                ClearSelectedFile();
+                ClearDocument(isDocumentB);
                 StatusMessage = "当前仅支持 DOCX 文件，请使用 WPS 或 Word 另存为 DOCX 后重新检查。";
                 ResultMessage = StatusMessage;
                 return false;
@@ -195,16 +390,28 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
             if (!string.Equals(extension, ".docx", StringComparison.OrdinalIgnoreCase))
             {
-                ClearSelectedFile();
+                ClearDocument(isDocumentB);
                 StatusMessage = "暂不支持该文件格式，请选择 .docx 报告。";
                 ResultMessage = StatusMessage;
                 return false;
             }
 
-            SelectedFilePath = filePath;
-            SelectedFileName = SafeFileName(filePath);
-            ExpectedProjectName = string.Empty;
-            StatusMessage = "已选择报告，可以开始校检。";
+            if (isDocumentB)
+            {
+                DocumentBPath = filePath;
+                DocumentBFileName = SafeFileName(filePath);
+                StatusMessage = "已选择文档 B，将执行双文档校检。";
+            }
+            else
+            {
+                SelectedFilePath = filePath;
+                SelectedFileName = SafeFileName(filePath);
+                ExpectedProjectName = string.Empty;
+                StatusMessage = HasDocumentB
+                    ? "已选择文档 A，将执行双文档校检。"
+                    : "已选择文档 A，可以开始单文档校检。";
+            }
+
             ResultMessage = "尚未执行校检。";
             return true;
         }
@@ -216,17 +423,12 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(ExpectedProjectName))
-            {
-                StatusMessage = "请输入正确项目名称后再开始校检。";
-                ResultMessage = StatusMessage;
-                return;
-            }
-
             string filePath = SelectedFilePath;
+            string documentBPath = DocumentBPath;
             string expectedProjectName = ExpectedProjectName;
             ClearResultState();
             IsBusy = true;
+            OnPropertyChanged(nameof(AiStatusMessage));
             StatusMessage = "正在读取报告……";
             SynchronizationContext uiContext = SynchronizationContext.Current;
             var progress = new CallbackProgress<string>(message =>
@@ -243,7 +445,10 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
             try
             {
-                var request = new ReportCheckRequest(filePath, expectedProjectName);
+                var request = new ReportCheckRequest(
+                    filePath,
+                    documentBPath,
+                    expectedProjectName);
                 ReportCheckResult result = await _reportCheckService.CheckAsync(request, progress);
                 ApplyResult(result);
             }
@@ -256,6 +461,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
             finally
             {
                 IsBusy = false;
+                OnPropertyChanged(nameof(AiStatusMessage));
             }
         }
 
@@ -268,17 +474,13 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 return;
             }
 
+            _sources = result.SourceDocuments;
             _allIssues.Clear();
             _allIssues.AddRange(result.Issues
                 .Select(item => new IssueViewModel(item))
                 .OrderByDescending(item => (int)item.Severity)
                 .ThenBy(item => item.SourceOrder));
-            SeriousCount = result.SeriousCount;
-            NormalCount = result.NormalCount;
-            ReminderCount = result.ReminderCount;
-            OnPropertyChanged(nameof(TotalCount));
-            ResultMessage = result.Message;
-            StatusMessage = result.Message;
+            _lastCheckMessage = result.Message;
             RefreshVisibleIssues();
         }
 
@@ -286,7 +488,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
         {
             IssueViewModel previouslySelected = SelectedIssue;
             Issues.Clear();
-            foreach (IssueViewModel issue in _allIssues.Where(MatchesSelectedFilter))
+            foreach (IssueViewModel issue in _allIssues.Where(MatchesSelectedDisplayMode).Where(MatchesSelectedFilter))
             {
                 Issues.Add(issue);
             }
@@ -294,7 +496,26 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
             SelectedIssue = previouslySelected != null && Issues.Contains(previouslySelected)
                 ? previouslySelected
                 : Issues.FirstOrDefault();
+            var inMode = _allIssues.Where(MatchesSelectedDisplayMode).ToList();
+            SeriousCount = inMode.Count(issue => issue.Severity == IssueSeverity.Serious);
+            NormalCount = inMode.Count(issue => issue.Severity == IssueSeverity.Normal);
+            ReminderCount = inMode.Count(issue => issue.Severity == IssueSeverity.Reminder);
+            OnPropertyChanged(nameof(TotalCount));
+            OnPropertyChanged(nameof(AuxiliaryCount));
+            OnPropertyChanged(nameof(RetainedIssueCount));
+            OnPropertyChanged(nameof(DisplayModeDescription));
+            if (!string.IsNullOrEmpty(_lastCheckMessage))
+            {
+                ResultMessage = SelectedDisplayMode == IssueDisplayMode.Detailed || AuxiliaryCount == 0
+                    ? _lastCheckMessage
+                    : "重点质控显示 " + TotalCount + " 条问题；另有 " + AuxiliaryCount +
+                      " 条辅助提示保留在详细检查中，未判定为已修复。";
+                StatusMessage = ResultMessage;
+            }
         }
+
+        private bool MatchesSelectedDisplayMode(IssueViewModel issue) =>
+            SelectedDisplayMode == IssueDisplayMode.Detailed || !IssueAttentionPolicy.IsAuxiliary(issue);
 
         private bool MatchesSelectedFilter(IssueViewModel issue)
         {
@@ -313,26 +534,60 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
         private void ClearResultState()
         {
+            _sources = new CheckedDocumentSource[0];
             _allIssues.Clear();
+            _lastCheckMessage = string.Empty;
             Issues.Clear();
             SelectedIssue = null;
             SeriousCount = 0;
             NormalCount = 0;
             ReminderCount = 0;
             OnPropertyChanged(nameof(TotalCount));
+            OnPropertyChanged(nameof(AuxiliaryCount));
+            OnPropertyChanged(nameof(RetainedIssueCount));
+            OnPropertyChanged(nameof(DisplayModeDescription));
             ResultMessage = string.Empty;
+            NavigationMessage = string.Empty;
         }
 
         private void ClearSelectedFile()
         {
             SelectedFilePath = string.Empty;
-            SelectedFileName = "尚未选择报告";
+            SelectedFileName = "尚未选择文档 A";
             ExpectedProjectName = string.Empty;
         }
 
-        private void OpenSelectedReport()
+        public void ClearDocumentB()
         {
-            ReportFileLaunchResult result = _reportFileLauncher.Open(SelectedFilePath);
+            if (IsBusy || IsNavigating)
+            {
+                return;
+            }
+
+            ClearResultState();
+            ClearDocument(true);
+            StatusMessage = HasDocumentA
+                ? "已清除文档 B，将执行单文档校检。"
+                : "尚未选择文档 A";
+            ResultMessage = "尚未执行校检。";
+        }
+
+        private void ClearDocument(bool isDocumentB)
+        {
+            if (isDocumentB)
+            {
+                DocumentBPath = string.Empty;
+                DocumentBFileName = "尚未选择（可选）";
+            }
+            else
+            {
+                ClearSelectedFile();
+            }
+        }
+
+        private void OpenDocument(string filePath)
+        {
+            ReportFileLaunchResult result = _reportFileLauncher.Open(filePath);
             StatusMessage = result.Message;
         }
 
@@ -341,11 +596,11 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
             try
             {
                 string name = Path.GetFileName(filePath);
-                return string.IsNullOrWhiteSpace(name) ? "已选择报告" : name;
+                return string.IsNullOrWhiteSpace(name) ? "已选择文档" : name;
             }
             catch (ArgumentException)
             {
-                return "已选择报告";
+                return "已选择文档";
             }
         }
     }

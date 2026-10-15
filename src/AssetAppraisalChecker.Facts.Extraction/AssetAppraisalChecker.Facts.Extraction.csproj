@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>AssetAppraisalChecker.Facts.Extraction</AssemblyName>
+    <RootNamespace>AssetAppraisalChecker.Facts.Extraction</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AssetAppraisalChecker.Core\AssetAppraisalChecker.Core.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Facts\AssetAppraisalChecker.Facts.csproj" />
+  </ItemGroup>
+</Project>

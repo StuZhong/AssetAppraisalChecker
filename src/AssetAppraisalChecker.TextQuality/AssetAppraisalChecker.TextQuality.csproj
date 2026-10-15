@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <AssemblyName>AssetAppraisalChecker.TextQuality</AssemblyName>
+    <RootNamespace>AssetAppraisalChecker.TextQuality</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AssetAppraisalChecker.Core\AssetAppraisalChecker.Core.csproj" />
+  </ItemGroup>
+</Project>

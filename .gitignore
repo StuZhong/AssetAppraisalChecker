@@ -10,3 +10,6 @@ temp/
 # 本目录可能包含真实资产评估报告，只允许提交目录说明文件。
 samples/*
 !samples/README.md
+
+# V2-GT-001 旧叙述案例含真实业务标识，只允许本地审计，不得提交。
+tests/AssetAppraisalChecker.Tests/GoldenCases/V2/V2-GT-001-*.md

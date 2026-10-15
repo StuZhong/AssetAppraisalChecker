@@ -93,6 +93,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -101,11 +102,17 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="SelectReportButton"
+                <TextBlock Grid.Row="0"
+                           Grid.Column="0"
+                           Margin="0,0,10,0"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Text="文档 A：" />
+                <Button x:Name="SelectDocumentAButton"
                         Grid.Row="0"
-                        Grid.Column="0"
-                        Content="选择报告"
-                        Click="SelectReportButton_Click">
+                        Grid.Column="1"
+                        Content="选择文档 A"
+                        Click="SelectDocumentAButton_Click">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
                             <Style.Triggers>
@@ -116,42 +123,86 @@
                         </Style>
                     </Button.Style>
                 </Button>
-                <Button x:Name="StartCheckButton"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Content="开始校检"
-                        Style="{StaticResource PrimaryButtonStyle}"
-                        Command="{Binding StartCheckCommand}" />
-                <Button x:Name="OpenReportButton"
+                <Button x:Name="OpenDocumentAButton"
                         Grid.Row="0"
                         Grid.Column="2"
-                        Content="打开原报告"
+                        Content="打开文档 A"
                         Style="{StaticResource SecondaryButtonStyle}"
-                        Command="{Binding OpenReportCommand}" />
+                        Command="{Binding OpenDocumentACommand}" />
 
                 <StackPanel Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
-                    <TextBlock Text="{Binding SelectedFileName}"
+                    <TextBlock Text="{Binding DocumentAFileName}"
                                FontWeight="SemiBold"
                                Foreground="#263238"
                                TextTrimming="CharacterEllipsis"
-                               ToolTip="{Binding SelectedFilePath}" />
-                    <TextBlock Text="{Binding SelectedFilePath, TargetNullValue=尚未选择报告}"
+                               ToolTip="{Binding DocumentAPath}" />
+                    <TextBlock Text="{Binding DocumentAPath}"
                                Margin="0,2,0,0"
                                Foreground="#65747C"
                                FontSize="11"
                                TextTrimming="CharacterEllipsis"
-                               ToolTip="{Binding SelectedFilePath}" />
+                               ToolTip="{Binding DocumentAPath}" />
                 </StackPanel>
 
-                <TextBlock Grid.Row="1"
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           Margin="0,8,10,0"
+                           VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Text="文档 B：" />
+                <Button x:Name="SelectDocumentBButton"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,8,10,0"
+                        Content="选择文档 B（可选）"
+                        Click="SelectDocumentBButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button Content="打开文档 B"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Command="{Binding OpenDocumentBCommand}" />
+                    <Button Content="清除文档 B"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Click="ClearDocumentBButton_Click" />
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.Column="3" Margin="0,8,0,0" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding DocumentBFileName}"
+                               FontWeight="SemiBold"
+                               Foreground="#263238"
+                               TextTrimming="CharacterEllipsis"
+                               ToolTip="{Binding DocumentBPath}" />
+                    <TextBlock Text="{Binding DocumentBPath}"
+                               Margin="0,2,0,0"
+                               Foreground="#65747C"
+                               FontSize="11"
+                               TextTrimming="CharacterEllipsis"
+                               ToolTip="{Binding DocumentBPath}" />
+                </StackPanel>
+
+                <Button x:Name="StartCheckButton"
+                        Grid.Row="2"
+                        Grid.Column="3"
+                        Margin="10,12,0,0"
+                        Content="开始校检"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Command="{Binding StartCheckCommand}" />
+                <TextBlock Grid.Row="2"
                            Grid.Column="0"
                            Margin="0,12,10,0"
                            VerticalAlignment="Center"
-                           Text="正确项目名称：" />
+                           Text="正确项目名称（可选）：" />
                 <TextBox x:Name="ExpectedProjectNameTextBox"
-                         Grid.Row="1"
+                         Grid.Row="2"
                          Grid.Column="1"
-                         Grid.ColumnSpan="3"
+                         Grid.ColumnSpan="2"
                          Height="30"
                          Margin="0,12,0,0"
                          Padding="7,4"
@@ -159,7 +210,7 @@
                          IsReadOnly="{Binding IsBusy}"
                          Text="{Binding ExpectedProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <ProgressBar Grid.Row="2"
+                <ProgressBar Grid.Row="3"
                              Grid.Column="0"
                              Grid.ColumnSpan="4"
                              Height="4"
@@ -170,36 +221,42 @@
         </Border>
 
         <Grid Grid.Row="2" Margin="18,12,18,12">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Style="{StaticResource SummaryCardStyle}">
+            <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource SummaryCardStyle}">
                 <StackPanel>
                     <TextBlock Text="严重问题" Foreground="#8B2D2D" />
                     <TextBlock Text="{Binding SeriousCount}" FontSize="24" FontWeight="SemiBold" Foreground="#8B2D2D" />
                 </StackPanel>
             </Border>
-            <Border Grid.Column="1" Style="{StaticResource SummaryCardStyle}">
+            <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource SummaryCardStyle}">
                 <StackPanel>
                     <TextBlock Text="一般问题" Foreground="#7A5B16" />
                     <TextBlock Text="{Binding NormalCount}" FontSize="24" FontWeight="SemiBold" Foreground="#7A5B16" />
                 </StackPanel>
             </Border>
-            <Border Grid.Column="2" Style="{StaticResource SummaryCardStyle}">
+            <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource SummaryCardStyle}">
                 <StackPanel>
                     <TextBlock Text="提醒" Foreground="#356477" />
                     <TextBlock Text="{Binding ReminderCount}" FontSize="24" FontWeight="SemiBold" Foreground="#356477" />
                 </StackPanel>
             </Border>
-            <Border Grid.Column="3" Style="{StaticResource SummaryCardStyle}" Margin="0">
+            <Border Grid.Row="0" Grid.Column="3" Style="{StaticResource SummaryCardStyle}" Margin="0">
                 <StackPanel>
                     <TextBlock Text="总问题数" Foreground="#37474F" />
                     <TextBlock Text="{Binding TotalCount}" FontSize="24" FontWeight="SemiBold" Foreground="#37474F" />
                 </StackPanel>
             </Border>
+            <TextBlock Grid.Row="1" Grid.ColumnSpan="4" Margin="3,6,0,0"
+                       Text="{Binding DisplayModeDescription}" Foreground="#546E7A" TextWrapping="Wrap" />
         </Grid>
 
         <Grid Grid.Row="3" Margin="18,0,18,12">
@@ -222,6 +279,11 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="校检问题" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <TextBlock Text="视图：" VerticalAlignment="Center" Margin="0,0,5,0" />
+                            <ComboBox x:Name="IssueDisplayModeComboBox" Width="105" Margin="0,0,12,0"
+                                      ItemsSource="{Binding DisplayModeOptions}"
+                                      DisplayMemberPath="DisplayName" SelectedValuePath="Mode"
+                                      SelectedValue="{Binding SelectedDisplayMode, Mode=TwoWay}" />
                             <TextBlock Text="筛选：" VerticalAlignment="Center" Margin="0,0,5,0" />
                             <ComboBox x:Name="SeverityFilterComboBox"
                                       Width="100"
@@ -277,68 +339,24 @@
                             </TextBlock.Style>
                         </TextBlock>
 
-                        <StackPanel Margin="0,10,0,0"
-                                    Visibility="{Binding HasSelectedIssue, Converter={StaticResource BooleanToVisibilityConverter}}">
-                            <TextBlock Text="{Binding SelectedIssue.SeverityDisplay}" FontWeight="SemiBold" Foreground="#7B3333" />
-                            <TextBlock Text="{Binding SelectedIssue.IssueTypeDisplay}" Margin="0,4,0,0" />
-                            <TextBlock Text="{Binding SelectedIssue.FieldName}" Margin="0,4,0,10" FontSize="15" FontWeight="SemiBold" />
-
-                            <TextBlock Text="问题说明" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding SelectedIssue.Reason}" Margin="0,4,0,10" TextWrapping="Wrap" />
-
-                            <TextBlock Text="建议操作" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding SelectedIssue.SuggestedAction}" Margin="0,4,0,12" TextWrapping="Wrap" />
-
-                            <TextBlock Text="涉及位置与证据" FontWeight="SemiBold" Margin="0,0,0,6" />
-                            <ItemsControl ItemsSource="{Binding SelectedIssue.Occurrences}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Margin="0,0,0,10"
-                                                Padding="10"
-                                                Background="#F8FAFB"
-                                                BorderBrush="#D8DEE2"
-                                                BorderThickness="1"
-                                                CornerRadius="3">
-                                            <StackPanel>
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Text="{Binding DisplayIndex, StringFormat=位置 {0}}" FontWeight="SemiBold" />
-                                                    <TextBlock Grid.Column="1"
-                                                               Text="疑似异常"
-                                                               Foreground="#A14820"
-                                                               FontWeight="SemiBold"
-                                                               Visibility="{Binding IsSuspectedOutlier, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                </Grid>
-                                                <TextBlock Text="{Binding LocationText}" Margin="0,4,0,0" TextWrapping="Wrap" />
-                                                <TextBlock Text="{Binding Area, StringFormat=所在区域：{0}}" Margin="0,3,0,0" TextWrapping="Wrap" />
-                                                <TextBlock Text="{Binding Subject, StringFormat=主体：{0}}"
-                                                           Margin="0,3,0,0"
-                                                           TextWrapping="Wrap"
-                                                           Visibility="{Binding HasSubject, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                                <TextBlock Text="原始值" Margin="0,8,0,0" FontWeight="SemiBold" />
-                                                <TextBlock Text="{Binding RawText}" TextWrapping="Wrap" />
-                                                <TextBlock Text="标准化值" Margin="0,6,0,0" FontWeight="SemiBold" />
-                                                <TextBlock Text="{Binding NormalizedValue}" TextWrapping="Wrap" />
-                                                <StackPanel Visibility="{Binding HasEvidence, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                    <TextBlock Text="分类证据" Margin="0,6,0,0" FontWeight="SemiBold" />
-                                                    <TextBlock Text="{Binding EvidenceText}" TextWrapping="Wrap" />
-                                                </StackPanel>
-                                                <StackPanel Visibility="{Binding HasWarnings, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                    <TextBlock Text="已有解析警告" Margin="0,6,0,0" FontWeight="SemiBold" />
-                                                    <TextBlock Text="{Binding WarningsText}" Foreground="#8A5C1F" TextWrapping="Wrap" />
-                                                </StackPanel>
-                                                <StackPanel Visibility="{Binding HasNearbyContext, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                                    <TextBlock Text="附近文本" Margin="0,6,0,0" FontWeight="SemiBold" />
-                                                    <TextBlock Text="{Binding NearbyContext}" Foreground="#55636A" TextWrapping="Wrap" />
-                                                </StackPanel>
-                                            </StackPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                        <WrapPanel Margin="0,10,0,8">
+                            <Button Content="定位到原文" Command="{Binding NavigateToSourceCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                            <Button Content="复制问题详情" Command="{Binding CopyIssueDetailsCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                        </WrapPanel>
+                        <StackPanel Visibility="{Binding HasSelectedIssue, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Text="选择要定位的位置（按问题的文档来源）" Foreground="#65747C" />
+                            <ComboBox ItemsSource="{Binding SelectedIssue.Occurrences}"
+                                      SelectedItem="{Binding SelectedNavigationOccurrence}"
+                                      DisplayMemberPath="NavigationDisplay" Margin="0,6,0,8" />
+                            <TextBlock Text="{Binding NavigationMessage}" TextWrapping="Wrap" Foreground="#246B73" Margin="0,0,0,8" />
+                            <WrapPanel Margin="0,0,0,10">
+                                <Button Content="打开原文" Command="{Binding OpenSourceCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                                <Button Content="复制原文片段" Command="{Binding CopySourceSnippetCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+                            </WrapPanel>
+                            <TextBlock Text="以下详情可选中文字并按 Ctrl+C 复制" Foreground="#65747C" Margin="0,0,0,6" />
+                            <TextBox Text="{Binding SelectedIssueDetails, Mode=OneWay}" IsReadOnly="True"
+                                     TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="0"
+                                     Background="#F8FAFB" Padding="10" VerticalScrollBarVisibility="Disabled" />
                         </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
@@ -351,10 +369,14 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
+                <StackPanel>
+                <TextBlock x:Name="AiStatusTextBlock" Text="{Binding AiStatusMessage}"
+                           Foreground="#37474F" TextWrapping="Wrap" Margin="0,0,0,4" />
                 <TextBlock x:Name="StatusTextBlock"
                            Text="{Binding StatusMessage}"
                            Foreground="#37474F"
                            TextTrimming="CharacterEllipsis" />
+                </StackPanel>
                 <TextBlock Grid.Column="1"
                            Text="只读校检 · 不修改原报告 · 不上传文件"
                            Foreground="#65747C"

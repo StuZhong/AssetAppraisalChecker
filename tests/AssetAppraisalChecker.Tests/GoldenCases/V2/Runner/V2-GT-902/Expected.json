@@ -1,0 +1,63 @@
+{
+  "SchemaVersion": "v2-golden-case/1.0",
+  "CaseId": "V2-GT-902",
+  "ExpectedSemanticCallCount": 0,
+  "ExpectedFacts": [
+    {
+      "DocumentId": "report", "FactType": "AssessmentObject", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "report", "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及6家客户，范围为本次列明的全部资产。", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 2, "Fields": { "AssetType": "供配电资产", "Owner": "虚构华辰资产有限公司", "EconomicAction": "接收", "Quantity": "6", "Scope": "本次列明的全部资产" } }]
+    },
+    {
+      "DocumentId": "report", "FactType": "AssessmentValue", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "report", "OriginalText": "998.22万元", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 4, "Fields": { "Value": "9982200.00", "NormalizedAmountYuan": "9982200.00" } }]
+    },
+    {
+      "DocumentId": "report", "FactType": "BenchmarkDate", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "report", "OriginalText": "2026年7月31日", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 3, "Fields": { "Value": "2026-07-31", "NormalizedDate": "2026-07-31" } }]
+    },
+    {
+      "DocumentId": "report", "FactType": "ReportNumber", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "report", "OriginalText": "云合成评报字（2026）第902号", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 1, "Fields": { "Value": "云合成评报字〔2026〕第902号", "NormalizedNumber": "云合成评报字〔2026〕第902号" } }]
+    },
+    {
+      "DocumentId": "explanation", "FactType": "AssessmentObject", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "explanation", "OriginalText": "评估对象为虚构华辰资产有限公司接收的供配电资产，涉及6家客户，范围为本次列明的全部资产。", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 2, "Fields": { "AssetType": "供配电资产", "Owner": "虚构华辰资产有限公司", "EconomicAction": "接收", "Quantity": "6", "Scope": "本次列明的全部资产" } }]
+    },
+    {
+      "DocumentId": "explanation", "FactType": "AssessmentValue", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "explanation", "OriginalText": "1000万元", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 4, "Fields": { "Value": "10000000.00", "NormalizedAmountYuan": "10000000.00" } }]
+    },
+    {
+      "DocumentId": "explanation", "FactType": "BenchmarkDate", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "explanation", "OriginalText": "2026-07-31", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 3, "Fields": { "Value": "2026-07-31", "NormalizedDate": "2026-07-31" } }]
+    },
+    {
+      "DocumentId": "explanation", "FactType": "ReportNumber", "ExpectedCount": 1, "AllowAdditionalFacts": false,
+      "Facts": [{ "SourceDocument": "explanation", "OriginalText": "云合成评报字[2026]第902号", "ConfidenceMinimum": "0.95", "DocumentPart": "MainBody", "ParagraphIndex": 1, "Fields": { "Value": "云合成评报字〔2026〕第902号", "NormalizedNumber": "云合成评报字〔2026〕第902号" } }]
+    }
+  ],
+  "Semantic": { "Mode": "Forbidden", "ExpectedCallCount": 0, "ExpectedCalls": [], "Responses": [], "FailureMessage": "" },
+  "ExpectedExecutions": [
+    { "Order": 1, "CheckerName": "AssessmentObjectChecker", "FactType": "AssessmentObject", "ExecutionStatus": "Succeeded", "HasConsistencyResult": true, "ErrorInformation": "", "RequiredEvidence": ["report | 评估对象为", "explanation | 评估对象为"], "ForbiddenEvidence": ["NormalizedAmountYuan=", "NormalizedDate=", "NormalizedNumber="] },
+    { "Order": 2, "CheckerName": "AssessmentValueChecker", "FactType": "AssessmentValue", "ExecutionStatus": "Succeeded", "HasConsistencyResult": true, "ErrorInformation": "", "RequiredEvidence": ["report | 998.22万元", "explanation | 1000万元"], "ForbiddenEvidence": ["NormalizedDate=", "NormalizedNumber=", "评估对象为"] },
+    { "Order": 3, "CheckerName": "BenchmarkDateChecker", "FactType": "BenchmarkDate", "ExecutionStatus": "Succeeded", "HasConsistencyResult": true, "ErrorInformation": "", "RequiredEvidence": ["NormalizedDate=2026-07-31", "2026年7月31日"], "ForbiddenEvidence": ["NormalizedAmountYuan=", "NormalizedNumber=", "评估对象为"] },
+    { "Order": 4, "CheckerName": "ReportNumberChecker", "FactType": "ReportNumber", "ExecutionStatus": "Succeeded", "HasConsistencyResult": true, "ErrorInformation": "", "RequiredEvidence": ["NormalizedNumber=云合成评报字〔2026〕第902号", "ComparisonMode=OrdinalExact"], "ForbiddenEvidence": ["NormalizedAmountYuan=", "NormalizedDate=", "评估对象为"] },
+    {
+      "Order": 5,
+      "CheckerName": "EvaluationMethodChecker",
+      "FactType": "EvaluationMethod",
+      "ExecutionStatus": "NotApplicable",
+      "HasConsistencyResult": false,
+      "ErrorInformation": ""
+    }
+  ],
+  "ExpectedAnalysis": {
+    "StatusSummary": "FAIL", "ExpectedResultCount": 4,
+    "Results": [
+      { "Order": 1, "FactType": "AssessmentObject", "Status": "PASS", "ReasonContains": "完全一致", "RequiredEvidence": ["report | 评估对象为", "explanation | 评估对象为"], "ForbiddenEvidence": ["NormalizedAmountYuan=", "NormalizedDate=", "NormalizedNumber="] },
+      { "Order": 2, "FactType": "AssessmentValue", "Status": "FAIL", "ReasonContains": "17800", "RequiredEvidence": ["report | 998.22万元", "explanation | 1000万元"], "ForbiddenEvidence": ["NormalizedDate=", "NormalizedNumber=", "评估对象为"] },
+      { "Order": 3, "FactType": "BenchmarkDate", "Status": "PASS", "ReasonContains": "精确相等", "RequiredEvidence": ["NormalizedDate=2026-07-31", "2026年7月31日"], "ForbiddenEvidence": ["NormalizedAmountYuan=", "NormalizedNumber=", "评估对象为"] },
+      { "Order": 4, "FactType": "ReportNumber", "Status": "PASS", "ReasonContains": "精确相等", "RequiredEvidence": ["NormalizedNumber=云合成评报字〔2026〕第902号", "ComparisonMode=OrdinalExact"], "ForbiddenEvidence": ["NormalizedAmountYuan=", "NormalizedDate=", "评估对象为"] }
+    ]
+  }
+}
