@@ -68,6 +68,9 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             ReportCheckRequest request,
             IProgress<string> progress)
         {
+            if (request.Mode == ReportCheckMode.WordExcel)
+                return new V3ReportCheckWorkflow().Check(request, progress);
+
             DateTimeOffset startedAt = DateTimeOffset.Now;
             var stopwatch = Stopwatch.StartNew();
             string documentAPath = request.DocumentAPath;

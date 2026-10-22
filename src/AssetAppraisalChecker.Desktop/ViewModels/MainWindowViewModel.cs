@@ -29,6 +29,10 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
         private string _selectedFileName = "尚未选择文档 A";
         private string _documentBPath = string.Empty;
         private string _documentBFileName = "尚未选择（可选）";
+        private bool _isV3Mode;
+        private string _excelPath = string.Empty;
+        private string _excelFileName = "尚未选择 Excel 工作簿";
+        private string _comparisonSummary = string.Empty;
         private string _statusMessage = "尚未选择文档 A";
         private string _resultMessage = "尚未执行校检。";
         private string _expectedProjectName = string.Empty;
@@ -84,9 +88,56 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
         public ObservableCollection<IssueViewModel> Issues { get; }
 
-        public string AiStatusMessage => IsBusy ? "本次校检进行中，AI 实际执行状态待确认……"
+        public string AiStatusMessage => IsV3Mode ? "V3 使用确定性金额规则，无需离线 AI。"
+            : IsBusy ? "本次校检进行中，AI 实际执行状态待确认……"
             : ((_reportCheckService as ILocalAiStatusProvider)?.AiStatusMessage
                 ?? "规则校检模式；未接入本地 AI。");
+
+        public bool IsV3Mode
+        {
+            get => _isV3Mode;
+            set
+            {
+                if (IsBusy || IsNavigating || !SetProperty(ref _isV3Mode, value)) return;
+                ClearResultState();
+                OnPropertyChanged(nameof(IsWordMode));
+                OnPropertyChanged(nameof(DocumentARole));
+                OnPropertyChanged(nameof(DocumentBRole));
+                OnPropertyChanged(nameof(DocumentAFileName));
+                OnPropertyChanged(nameof(DocumentBFileName));
+                OnPropertyChanged(nameof(SelectDocumentAText));
+                OnPropertyChanged(nameof(SelectDocumentBText));
+                OnPropertyChanged(nameof(OpenDocumentAText));
+                OnPropertyChanged(nameof(OpenDocumentBText));
+                OnPropertyChanged(nameof(AiStatusMessage));
+                RefreshStartCheck();
+                StatusMessage = value ? "V3：请选择资产评估报告、资产评估说明和 Excel 汇总工作簿。"
+                    : "Word 校检：选择文档 A；文档 B 为可选项。";
+                ResultMessage = "尚未执行校检。";
+            }
+        }
+
+        public bool IsWordMode { get => !IsV3Mode; set => IsV3Mode = !value; }
+        public string DocumentARole => IsV3Mode ? "资产评估报告：" : "文档 A：";
+        public string DocumentBRole => IsV3Mode ? "资产评估说明：" : "文档 B：";
+        public string SelectDocumentAText => IsV3Mode ? "选择评估报告" : "选择文档 A";
+        public string SelectDocumentBText => IsV3Mode ? "选择评估说明" : "选择文档 B（可选）";
+        public string OpenDocumentAText => IsV3Mode ? "打开评估报告" : "打开文档 A";
+        public string OpenDocumentBText => IsV3Mode ? "打开评估说明" : "打开文档 B";
+        public bool CanSelectFiles => !IsBusy && !IsNavigating;
+        public string ExcelPath
+        {
+            get => _excelPath;
+            private set { if (SetProperty(ref _excelPath, value)) RefreshStartCheck(); }
+        }
+        public string ExcelFileName { get => _excelFileName; private set => SetProperty(ref _excelFileName, value); }
+        public string ComparisonSummary { get => _comparisonSummary; private set => SetProperty(ref _comparisonSummary, value); }
+
+        private void RefreshStartCheck()
+        {
+            OnPropertyChanged(nameof(CanStartCheck));
+            StartCheckCommand.RaiseCanExecuteChanged();
+        }
 
         public IReadOnlyList<IssueFilterOption> FilterOptions { get; }
         public IReadOnlyList<IssueDisplayModeOption> DisplayModeOptions { get; }
@@ -113,6 +164,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 if (SetProperty(ref _isNavigating, value))
                 {
                     RefreshNavigationCommands();
+                    OnPropertyChanged(nameof(CanSelectFiles));
                     OnPropertyChanged(nameof(CanStartCheck));
                     StartCheckCommand.RaiseCanExecuteChanged();
                 }
@@ -212,7 +264,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
         public string DocumentAPath => SelectedFilePath;
 
-        public string DocumentAFileName => SelectedFileName;
+        public string DocumentAFileName => IsV3Mode && !HasDocumentA ? "尚未选择资产评估报告（必选）" : SelectedFileName;
 
         public bool HasDocumentA => HasSelectedFile;
 
@@ -224,6 +276,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 if (SetProperty(ref _documentBPath, value))
                 {
                     OnPropertyChanged(nameof(HasDocumentB));
+                    RefreshStartCheck();
                     OnPropertyChanged(nameof(CanOpenDocumentB));
                     OpenDocumentBCommand.RaiseCanExecuteChanged();
                 }
@@ -232,13 +285,14 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
         public string DocumentBFileName
         {
-            get => _documentBFileName;
+            get => IsV3Mode && !HasDocumentB ? "尚未选择资产评估说明（必选）" : _documentBFileName;
             private set => SetProperty(ref _documentBFileName, value);
         }
 
         public bool HasDocumentB => !string.IsNullOrWhiteSpace(DocumentBPath);
 
-        public bool CanStartCheck => HasSelectedFile && !IsBusy && !IsNavigating;
+        public bool CanStartCheck => HasSelectedFile && (!IsV3Mode ||
+            (HasDocumentB && !string.IsNullOrWhiteSpace(ExcelPath))) && !IsBusy && !IsNavigating;
 
         public bool CanOpenReport => HasSelectedFile && !IsBusy;
 
@@ -272,6 +326,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 if (SetProperty(ref _isBusy, value))
                 {
                     OnPropertyChanged(nameof(CanStartCheck));
+                    OnPropertyChanged(nameof(CanSelectFiles));
                     OnPropertyChanged(nameof(CanOpenReport));
                     OnPropertyChanged(nameof(CanOpenDocumentA));
                     OnPropertyChanged(nameof(CanOpenDocumentB));
@@ -303,9 +358,11 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
         public int TotalCount => SeriousCount + NormalCount + ReminderCount;
 
-        public int AuxiliaryCount => _allIssues.Count(IssueAttentionPolicy.IsAuxiliary);
+        public int AuxiliaryCount => IsV3Mode ? 0 : _allIssues.Count(IssueAttentionPolicy.IsAuxiliary);
         public int RetainedIssueCount => _allIssues.Count;
-        public string DisplayModeDescription => SelectedDisplayMode == IssueDisplayMode.Focused
+        public string DisplayModeDescription => IsV3Mode
+            ? "V3 仅核对三个评估结论的金额；不一致和无法判定均保留在问题列表中。"
+            : SelectedDisplayMode == IssueDisplayMode.Focused
             ? "当前显示重点质控；另有 " + AuxiliaryCount + " 条辅助提示保留在详细检查中，并非已修复。"
             : "当前显示全部 " + RetainedIssueCount + " 条检查记录（含 " + AuxiliaryCount + " 条辅助提示）。";
 
@@ -362,6 +419,38 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
             return TrySelectDocument(filePath, true);
         }
 
+        public bool TrySelectExcel(string filePath)
+        {
+            if (!CanSelectFiles) return false;
+            ClearResultState();
+            string extension;
+            try { extension = Path.GetExtension(filePath ?? string.Empty); }
+            catch (ArgumentException) { extension = string.Empty; }
+            if (!string.Equals(extension, ".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                ExcelPath = string.Empty;
+                ExcelFileName = "尚未选择 Excel 工作簿";
+                StatusMessage = "V3 当前仅支持 .xlsx 工作簿，请选择包含《资产评估汇总表》的文件。";
+                ResultMessage = StatusMessage;
+                return false;
+            }
+            ExcelPath = filePath;
+            ExcelFileName = SafeFileName(filePath);
+            StatusMessage = "已选择 Excel 工作簿；V3 只读取《资产评估汇总表》。";
+            ResultMessage = "尚未执行校检。";
+            return true;
+        }
+
+        public void ClearExcel()
+        {
+            if (!CanSelectFiles) return;
+            ClearResultState();
+            ExcelPath = string.Empty;
+            ExcelFileName = "尚未选择 Excel 工作簿";
+            StatusMessage = "请选择包含《资产评估汇总表》的 Excel 工作簿。";
+            ResultMessage = "尚未执行校检。";
+        }
+
         private bool TrySelectDocument(string filePath, bool isDocumentB)
         {
             if (IsBusy || IsNavigating)
@@ -412,6 +501,8 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                     : "已选择文档 A，可以开始单文档校检。";
             }
 
+            if (IsV3Mode)
+                StatusMessage = "已选择" + (isDocumentB ? "资产评估说明" : "资产评估报告") + "；三个文件齐备后可开始 V3 校检。";
             ResultMessage = "尚未执行校检。";
             return true;
         }
@@ -426,6 +517,8 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
             string filePath = SelectedFilePath;
             string documentBPath = DocumentBPath;
             string expectedProjectName = ExpectedProjectName;
+            ReportCheckMode mode = IsV3Mode ? ReportCheckMode.WordExcel : ReportCheckMode.WordDocuments;
+            string excelPath = ExcelPath;
             ClearResultState();
             IsBusy = true;
             OnPropertyChanged(nameof(AiStatusMessage));
@@ -448,7 +541,9 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 var request = new ReportCheckRequest(
                     filePath,
                     documentBPath,
-                    expectedProjectName);
+                    expectedProjectName,
+                    mode,
+                    excelPath);
                 ReportCheckResult result = await _reportCheckService.CheckAsync(request, progress);
                 ApplyResult(result);
             }
@@ -481,6 +576,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
                 .OrderByDescending(item => (int)item.Severity)
                 .ThenBy(item => item.SourceOrder));
             _lastCheckMessage = result.Message;
+            ComparisonSummary = result.IsV3Check ? result.Message : string.Empty;
             RefreshVisibleIssues();
         }
 
@@ -515,7 +611,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
         }
 
         private bool MatchesSelectedDisplayMode(IssueViewModel issue) =>
-            SelectedDisplayMode == IssueDisplayMode.Detailed || !IssueAttentionPolicy.IsAuxiliary(issue);
+            IsV3Mode || SelectedDisplayMode == IssueDisplayMode.Detailed || !IssueAttentionPolicy.IsAuxiliary(issue);
 
         private bool MatchesSelectedFilter(IssueViewModel issue)
         {
@@ -537,6 +633,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
             _sources = new CheckedDocumentSource[0];
             _allIssues.Clear();
             _lastCheckMessage = string.Empty;
+            ComparisonSummary = string.Empty;
             Issues.Clear();
             SelectedIssue = null;
             SeriousCount = 0;
@@ -566,7 +663,7 @@ namespace AssetAppraisalChecker.Desktop.ViewModels
 
             ClearResultState();
             ClearDocument(true);
-            StatusMessage = HasDocumentA
+            StatusMessage = IsV3Mode ? "已清除资产评估说明；V3 需要三个文件齐备后才能校检。" : HasDocumentA
                 ? "已清除文档 B，将执行单文档校检。"
                 : "尚未选择文档 A";
             ResultMessage = "尚未执行校检。";

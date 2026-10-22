@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AssetAppraisalChecker.Core\AssetAppraisalChecker.Core.csproj" />
+    <ProjectReference Include="..\AssetAppraisalChecker.Document\AssetAppraisalChecker.Document.csproj" />
     <ProjectReference Include="..\AssetAppraisalChecker.Facts\AssetAppraisalChecker.Facts.csproj" />
     <ProjectReference Include="..\AssetAppraisalChecker.Facts.Extraction\AssetAppraisalChecker.Facts.Extraction.csproj" />
     <ProjectReference Include="..\AssetAppraisalChecker.Semantic\AssetAppraisalChecker.Semantic.csproj" />

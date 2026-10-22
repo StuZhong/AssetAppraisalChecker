@@ -94,6 +94,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -102,21 +104,30 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0"
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal"
+                            Margin="0,0,0,10" IsEnabled="{Binding CanSelectFiles}">
+                    <RadioButton x:Name="WordCheckModeRadioButton" GroupName="CheckMode"
+                                 Content="V1 / V2 Word 校检（文档 B 可选）" Margin="0,0,24,0"
+                                 IsChecked="{Binding IsWordMode, Mode=TwoWay}" />
+                    <RadioButton x:Name="V3CheckModeRadioButton" GroupName="CheckMode"
+                                 Content="V3 Word–Excel 金额校检"
+                                 IsChecked="{Binding IsV3Mode, Mode=TwoWay}" />
+                </StackPanel>
+                <TextBlock Grid.Row="1"
                            Grid.Column="0"
                            Margin="0,0,10,0"
                            VerticalAlignment="Center"
                            FontWeight="SemiBold"
-                           Text="文档 A：" />
+                           Text="{Binding DocumentARole}" />
                 <Button x:Name="SelectDocumentAButton"
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Grid.Column="1"
-                        Content="选择文档 A"
+                        Content="{Binding SelectDocumentAText}"
                         Click="SelectDocumentAButton_Click">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                <DataTrigger Binding="{Binding CanSelectFiles}" Value="False">
                                     <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -124,13 +135,13 @@
                     </Button.Style>
                 </Button>
                 <Button x:Name="OpenDocumentAButton"
-                        Grid.Row="0"
+                        Grid.Row="1"
                         Grid.Column="2"
-                        Content="打开文档 A"
+                        Content="{Binding OpenDocumentAText}"
                         Style="{StaticResource SecondaryButtonStyle}"
                         Command="{Binding OpenDocumentACommand}" />
 
-                <StackPanel Grid.Row="0" Grid.Column="3" VerticalAlignment="Center">
+                <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center">
                     <TextBlock Text="{Binding DocumentAFileName}"
                                FontWeight="SemiBold"
                                Foreground="#263238"
@@ -144,36 +155,36 @@
                                ToolTip="{Binding DocumentAPath}" />
                 </StackPanel>
 
-                <TextBlock Grid.Row="1" Grid.Column="0"
+                <TextBlock Grid.Row="2" Grid.Column="0"
                            Margin="0,8,10,0"
                            VerticalAlignment="Center"
                            FontWeight="SemiBold"
-                           Text="文档 B：" />
+                           Text="{Binding DocumentBRole}" />
                 <Button x:Name="SelectDocumentBButton"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Grid.Column="1"
                         Margin="0,8,10,0"
-                        Content="选择文档 B（可选）"
+                        Content="{Binding SelectDocumentBText}"
                         Click="SelectDocumentBButton_Click">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource SecondaryButtonStyle}">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                <DataTrigger Binding="{Binding CanSelectFiles}" Value="False">
                                     <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
                 </Button>
-                <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" Margin="0,8,0,0">
-                    <Button Content="打开文档 B"
+                <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" Margin="0,8,0,0">
+                    <Button Content="{Binding OpenDocumentBText}"
                             Style="{StaticResource SecondaryButtonStyle}"
                             Command="{Binding OpenDocumentBCommand}" />
                     <Button Content="清除文档 B"
                             Style="{StaticResource SecondaryButtonStyle}"
                             Click="ClearDocumentBButton_Click" />
                 </StackPanel>
-                <StackPanel Grid.Row="1" Grid.Column="3" Margin="0,8,0,0" VerticalAlignment="Center">
+                <StackPanel Grid.Row="2" Grid.Column="3" Margin="0,8,0,0" VerticalAlignment="Center">
                     <TextBlock Text="{Binding DocumentBFileName}"
                                FontWeight="SemiBold"
                                Foreground="#263238"
@@ -187,20 +198,41 @@
                                ToolTip="{Binding DocumentBPath}" />
                 </StackPanel>
 
+                <Grid Grid.Row="3" Grid.ColumnSpan="4" Margin="0,8,0,0"
+                      Visibility="{Binding IsV3Mode, Converter={StaticResource BooleanToVisibilityConverter}}"
+                      IsEnabled="{Binding CanSelectFiles}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Excel 汇总工作簿：" Margin="0,0,10,0" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    <Button x:Name="SelectExcelButton" Grid.Column="1" Content="选择 Excel"
+                            Style="{StaticResource SecondaryButtonStyle}" Click="SelectExcelButton_Click" />
+                    <Button Grid.Column="2" Content="清除 Excel" Style="{StaticResource SecondaryButtonStyle}"
+                            Click="ClearExcelButton_Click" />
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding ExcelFileName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip="{Binding ExcelPath}" />
+                        <TextBlock Text="{Binding ExcelPath}" FontSize="11" Foreground="#65747C" Margin="0,2,0,0"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding ExcelPath}" />
+                    </StackPanel>
+                </Grid>
                 <Button x:Name="StartCheckButton"
-                        Grid.Row="2"
+                        Grid.Row="4"
                         Grid.Column="3"
                         Margin="10,12,0,0"
                         Content="开始校检"
                         Style="{StaticResource PrimaryButtonStyle}"
                         Command="{Binding StartCheckCommand}" />
-                <TextBlock Grid.Row="2"
+                <TextBlock Grid.Row="4"
                            Grid.Column="0"
                            Margin="0,12,10,0"
                            VerticalAlignment="Center"
-                           Text="正确项目名称（可选）：" />
+                           Text="正确项目名称（可选）："
+                           Visibility="{Binding IsWordMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <TextBox x:Name="ExpectedProjectNameTextBox"
-                         Grid.Row="2"
+                         Grid.Row="4"
                          Grid.Column="1"
                          Grid.ColumnSpan="2"
                          Height="30"
@@ -208,9 +240,10 @@
                          Padding="7,4"
                          VerticalContentAlignment="Center"
                          IsReadOnly="{Binding IsBusy}"
-                         Text="{Binding ExpectedProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                         Text="{Binding ExpectedProjectName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Visibility="{Binding IsWordMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                <ProgressBar Grid.Row="3"
+                <ProgressBar Grid.Row="5"
                              Grid.Column="0"
                              Grid.ColumnSpan="4"
                              Height="4"
@@ -255,8 +288,12 @@
                     <TextBlock Text="{Binding TotalCount}" FontSize="24" FontWeight="SemiBold" Foreground="#37474F" />
                 </StackPanel>
             </Border>
-            <TextBlock Grid.Row="1" Grid.ColumnSpan="4" Margin="3,6,0,0"
-                       Text="{Binding DisplayModeDescription}" Foreground="#546E7A" TextWrapping="Wrap" />
+            <StackPanel Grid.Row="1" Grid.ColumnSpan="4" Margin="3,6,0,0">
+                <TextBlock x:Name="V3SummaryTextBlock" Text="{Binding ComparisonSummary}" FontWeight="SemiBold"
+                           Foreground="#214E55" TextWrapping="Wrap"
+                           Visibility="{Binding IsV3Mode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                <TextBlock Text="{Binding DisplayModeDescription}" Foreground="#546E7A" TextWrapping="Wrap" />
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="3" Margin="18,0,18,12">

@@ -21,6 +21,7 @@ namespace AssetAppraisalChecker.Desktop.Workflow
     {
         private readonly ObservedRanker _ranker;
         private readonly ReportCheckService _rules;
+        private readonly string _unavailableStatus;
         private readonly SemaphoreSlim _checkLock = new SemaphoreSlim(1, 1);
         private string _status;
         private bool _disposed;
@@ -32,6 +33,7 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             {
                 _rules = new ReportCheckService();
                 _status = unavailableReason ?? "AI 不可用：未配置本地模型路径；规则校检可用。";
+                _unavailableStatus = _status;
             }
             else
             {
@@ -104,15 +106,19 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             try
             {
                 if (_disposed) throw new ObjectDisposedException(nameof(DesktopLocalAiService));
-                _ranker?.BeginCheck();
+                if (request.Mode != ReportCheckMode.WordExcel) _ranker?.BeginCheck();
                 ReportCheckResult result = await _rules.CheckAsync(request, progress).ConfigureAwait(false);
                 succeeded = result.IsSuccess;
                 return result;
             }
             finally
             {
-                if (_ranker != null)
+                if (request.Mode == ReportCheckMode.WordExcel)
+                    _status = "本次为 V3 Word–Excel 金额校检；仅使用确定性规则，未调用 AI。";
+                else if (_ranker != null)
                     _status = _ranker.Summary(request.HasDocumentB, succeeded);
+                else
+                    _status = _unavailableStatus;
                 _checkLock.Release();
             }
         }

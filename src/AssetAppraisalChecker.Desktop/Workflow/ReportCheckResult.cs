@@ -6,6 +6,7 @@ using AssetAppraisalChecker.Core.BasicFields;
 using AssetAppraisalChecker.Core.Consistency;
 using AssetAppraisalChecker.Core.Documents;
 using AssetAppraisalChecker.Desktop.Services.Navigation;
+using AssetAppraisalChecker.Application.V3;
 
 namespace AssetAppraisalChecker.Desktop.Workflow
 {
@@ -27,7 +28,9 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             string documentBFilePath = null,
             string documentBFileName = null,
             DocumentReadStatus? documentBReadStatus = null,
-            IEnumerable<CheckedDocumentSource> sourceDocuments = null)
+            IEnumerable<CheckedDocumentSource> sourceDocuments = null,
+            V3MoneyComparisonResult v3Comparison = null,
+            string excelFilePath = null)
         {
             if (duration < TimeSpan.Zero)
             {
@@ -62,6 +65,9 @@ namespace AssetAppraisalChecker.Desktop.Workflow
             DocumentBReadStatus = documentBReadStatus;
             SourceDocuments = new ReadOnlyCollection<CheckedDocumentSource>(
                 (sourceDocuments ?? Enumerable.Empty<CheckedDocumentSource>()).ToList());
+            V3Comparison = v3Comparison;
+            ExcelFilePath = excelFilePath ?? string.Empty;
+            IsV3Check = v3Comparison != null || excelFilePath != null;
         }
 
         public string FilePath { get; }
@@ -105,5 +111,11 @@ namespace AssetAppraisalChecker.Desktop.Workflow
         public bool IsCrossDocumentCheck => !string.IsNullOrWhiteSpace(DocumentBFilePath);
 
         public IReadOnlyList<CheckedDocumentSource> SourceDocuments { get; }
+
+        public V3MoneyComparisonResult V3Comparison { get; }
+
+        public string ExcelFilePath { get; }
+
+        public bool IsV3Check { get; }
     }
 }
